@@ -32,11 +32,11 @@ module.exports = {
     'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z]' }],
 
     // Stylistic Issues
-    'array-bracket-newline': ['error', { multiline: true, minItems: null }],
+    // 'array-bracket-newline': ['error', { multiline: true, minItems: null }],
     'array-bracket-spacing': 'error',
     'brace-style': ['error', '1tbs', { allowSingleLine: true }],
     'block-spacing': 'error',
-    'comma-dangle': 'error',
+    // 'comma-dangle': 'error',
     'comma-spacing': 'error',
     'comma-style': 'error',
     'computed-property-spacing': 'error',
@@ -58,7 +58,7 @@ module.exports = {
     ],
     'quote-props': ['error', 'as-needed'],
     // quotes: ['error', 'prefer-single'],
-    semi: ['error', 'never'],
+    // semi: ['error', 'never'],
     'semi-spacing': 'error',
     'space-before-blocks': 'error',
     // 'space-before-function-paren': 'error',

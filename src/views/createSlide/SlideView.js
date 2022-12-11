@@ -21,7 +21,7 @@ import { SLIDE_TYPE } from "../../constants/slide";
 //   ],
 // };
 
-const SlideView = ({ title, chartData }) => {
+const SlideView = ({ title, chartData, setValues }) => {
   const { skin } = useSkin();
   const labelColor = skin === "dark" ? "#b4b7bd" : "#6e6b7b";
 
@@ -36,6 +36,7 @@ const SlideView = ({ title, chartData }) => {
           labelColor={labelColor}
           gridLineColor={"rgba(200, 200, 200, 0.2)"}
           chartData={chartData}
+          setValues={setValues}
         />
       </CardBody>
     </Card>

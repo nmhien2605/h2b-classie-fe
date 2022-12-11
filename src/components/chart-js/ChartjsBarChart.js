@@ -1,12 +1,15 @@
 // ** Third Party Components
 import { Bar } from "react-chartjs-2";
-import Flatpickr from "react-flatpickr";
-import { Calendar } from "react-feather";
 
 // ** Reactstrap Imports
-import { Card, CardHeader, CardTitle, CardBody } from "reactstrap";
+import { Card, CardBody } from "reactstrap";
 
-const ChartjsBarChart = ({ gridLineColor, labelColor, chartData }) => {
+const ChartjsBarChart = ({
+  gridLineColor,
+  labelColor,
+  chartData,
+  setValues = () => {},
+}) => {
   // ** Chart Options
   const options = {
     responsive: true,
@@ -23,6 +26,13 @@ const ChartjsBarChart = ({ gridLineColor, labelColor, chartData }) => {
       y: {
         display: false,
       },
+    },
+    onClick: (event, clickedEles) => {
+      const idx = clickedEles[0]?.index;
+
+      const newValues = [...chartData?.datasets[0]?.data];
+      newValues[idx] = newValues[idx] + 1;
+      setValues([...newValues]);
     },
     plugins: {
       legend: { display: false },

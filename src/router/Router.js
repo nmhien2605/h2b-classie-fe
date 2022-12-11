@@ -18,6 +18,7 @@ import { DefaultRoute, Routes } from './routes'
 import BlankLayout from '@layouts/BlankLayout'
 import VerticalLayout from '@src/layouts/VerticalLayout'
 import HorizontalLayout from '@src/layouts/HorizontalLayout'
+import Presentation from '../views/presentation'
 
 const Router = () => {
   // ** Hooks
@@ -193,15 +194,15 @@ const Router = () => {
         {/* If user is logged in Redirect user to DefaultRoute else to login */}
         <Route
           exact
-          path='/'
+          path="/"
           render={() => {
-            return <Redirect to={DefaultRoute} />
+            return <Redirect to={DefaultRoute} />;
           }}
         />
         {/* Not Auth Route */}
         <Route
           exact
-          path='/misc/not-authorized'
+          path="/misc/not-authorized"
           render={() => (
             <Layouts.BlankLayout>
               <NotAuthorized />
@@ -210,11 +211,13 @@ const Router = () => {
         />
         {ResolveRoutes()}
 
+        <Route exact path={"/view-slide"} component={Presentation} />
+
         {/* NotFound Error page */}
-        <Route path='*' component={Error} />
+        <Route path="*" component={Error} />
       </Switch>
     </AppRouter>
-  )
+  );
 }
 
 export default Router

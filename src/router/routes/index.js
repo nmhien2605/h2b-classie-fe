@@ -17,6 +17,10 @@ const Routes = [
     component: lazy(() => import('../../views/SecondPage'))
   },
   {
+    path: '/create-slide',
+    component: lazy(() => import('../../views/createSlide/CreateSlide'))
+  },
+  {
     path: '/login',
     component: lazy(() => import('../../views/Login')),
     layout: 'BlankLayout',

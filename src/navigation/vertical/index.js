@@ -15,9 +15,9 @@ export default [
   },
   {
     id: "group",
-    title: "My Groups",
+    title: "My Presentations",
     icon: <Users size={20} />,
-    navLink: "/my-groups",
+    navLink: "/my-slides",
   },
   {
     id: "slide",

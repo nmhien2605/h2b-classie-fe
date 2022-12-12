@@ -9,7 +9,7 @@ const getIcon = (slideType) => {
     case SLIDE_TYPE.MUL_CHOICES:
       return <BarChart />;
     default:
-      return "";
+      return <BarChart />;
   }
 };
 

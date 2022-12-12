@@ -6,22 +6,23 @@ import "@styles/base/pages/page-misc.scss";
 import { selectThemeColors } from "@utils";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import {
   Button,
   Card,
   CardBody,
   CardHeader,
   Col,
+  Input,
   Label,
   Row,
 } from "reactstrap";
+import { SuccessToast } from "../../components/toast";
 import { SLIDE_TYPE } from "../../constants/slide";
 import { buildData } from "../../utility/chartData/barChartData";
 import SlideList from "./SlideList";
 import SlideOptions from "./SlideOptions";
 import SlideView from "./SlideView";
-import { toast } from "react-toastify";
-import { SuccessToast } from "../../components/toast";
 // import postJson from "../../utility/api/postJson";
 
 const sldieTypeOptions = [
@@ -48,6 +49,8 @@ const CreateSlide = () => {
   const [data, setData] = useState({ ...emptyData });
   const [currentSlide, setCurrentSlide] = useState(data.slides[current]);
 
+  const searchParams = new URLSearchParams(document.location.search);
+
   useEffect(() => {
     const slideData = data.slides[current];
     setCurrentSlide({ ...slideData });
@@ -59,6 +62,19 @@ const CreateSlide = () => {
     newData.slides[current] = { ...currentSlide };
     setData({ ...newData });
   }, [currentSlide]);
+
+  useEffect(async () => {
+    const id = searchParams.get("id");
+    if (id) {
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_API_DOMAIN}/presentations/${id}`,
+        { withCredentials: true }
+      );
+      setIsCreated(true);
+      setData({ ...data.data });
+      setCurrentSlide({ ...data.data.slides[0] });
+    }
+  }, []);
 
   const handleAddNewSlide = (slideType = SLIDE_TYPE.MUL_CHOICES) => {
     const newSlide = {
@@ -109,12 +125,11 @@ const CreateSlide = () => {
     return toast.success(<SuccessToast />, {
       icon: false,
       hideProgressBar: true,
+      autoClose: 5000,
     });
   };
 
   const handleSaveSlide = async () => {
-    console.log(data._id);
-
     await axios.put(
       `${process.env.REACT_APP_API_DOMAIN}/presentations/${data._id}`,
       { ...data },
@@ -122,6 +137,10 @@ const CreateSlide = () => {
     );
 
     notifySuccess();
+  };
+
+  const handleChangePresentationName = (event) => {
+    setData({ ...data, name: event.target.value });
   };
 
   return (
@@ -150,17 +169,24 @@ const CreateSlide = () => {
           <Col xl={7} md={6}>
             <Card>
               <CardHeader>
-                Preview
+                <div className="w-75">
+                  <Input
+                    type="text"
+                    placeholder="Enter presentation name"
+                    value={data.name}
+                    onChange={handleChangePresentationName}
+                  />
+                </div>
                 <Button onClick={handleSaveSlide} color="success">
                   Save Slide
                 </Button>
               </CardHeader>
               <CardBody>
                 <SlideView
-                  title={currentSlide.detail.title}
+                  title={currentSlide?.detail?.title}
                   chartData={buildData(
-                    currentSlide.detail.options,
-                    currentSlide.detail.values
+                    currentSlide?.detail?.options,
+                    currentSlide?.detail?.values
                   )}
                 />
               </CardBody>
@@ -182,9 +208,9 @@ const CreateSlide = () => {
                 </div>
               </CardBody>
               <SlideOptions
-                title={currentSlide.detail.title}
+                title={currentSlide?.detail?.title}
                 setTitle={updateSlideTitle}
-                options={currentSlide.detail.options}
+                options={currentSlide?.detail?.options}
                 setOptions={updateSlideOptions}
               />
             </Card>

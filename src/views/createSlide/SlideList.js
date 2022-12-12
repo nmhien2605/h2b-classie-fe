@@ -14,7 +14,7 @@ const getIcon = (slideType) => {
 };
 
 const SlideList = ({ data, current, setCurrent, handleAddNewSlide }) => {
-  const { slide: slides } = data;
+  const { slides } = data;
 
   return (
     <Card>

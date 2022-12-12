@@ -1,22 +1,28 @@
-import { Users, Home, Trello } from 'react-feather'
+import { Mail, Home, Trello, Users } from "react-feather";
 
 export default [
   {
-    id: 'home',
-    title: 'Home',
+    id: "home",
+    title: "Home",
     icon: <Home size={20} />,
-    navLink: '/home'
+    navLink: "/home",
   },
   {
-    id: 'secondPage',
-    title: 'group',
+    id: "secondPage",
+    title: "Second Page",
+    icon: <Mail size={20} />,
+    navLink: "/second-page",
+  },
+  {
+    id: "group",
+    title: "My Groups",
     icon: <Users size={20} />,
-    navLink: '/group'
+    navLink: "/my-groups",
   },
   {
-    id: 'slide',
-    title: 'Create Slide',
+    id: "slide",
+    title: "Create Slide",
     icon: <Trello size={20} />,
-    navLink: '/create-slide'
-  }
-]
+    navLink: "/create-slide",
+  },
+];

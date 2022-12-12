@@ -125,7 +125,7 @@ const LoginCover = () => {
                     <Input
                       autoFocus
                       type='email'
-                      placeholder='john@example.com'
+                      placeholder='example@gmail.com'
                       invalid={errors.email && true}
                       {...field}
                     />

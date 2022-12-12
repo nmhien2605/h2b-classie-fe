@@ -1,4 +1,4 @@
-import { Mail, Home, Trello } from 'react-feather'
+import { Users, Home, Trello } from 'react-feather'
 
 export default [
   {
@@ -9,9 +9,9 @@ export default [
   },
   {
     id: 'secondPage',
-    title: 'Second Page',
-    icon: <Mail size={20} />,
-    navLink: '/second-page'
+    title: 'group',
+    icon: <Users size={20} />,
+    navLink: '/group'
   },
   {
     id: 'slide',

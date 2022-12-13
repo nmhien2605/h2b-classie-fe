@@ -1,7 +1,7 @@
 // ** React Imports
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 // import { useState, useEffect } from 'react'
-import axios from 'axios'
+// import axios from 'axios'
 // ** Custom Components
 import Avatar from '@components/avatar'
 
@@ -9,11 +9,11 @@ import Avatar from '@components/avatar'
 // import { isUserLoggedIn } from '@utils'
 
 // ** Third Party Components
-import { User, Mail, CheckSquare, MessageSquare, Settings, CreditCard, HelpCircle, Power } from 'react-feather'
+import { Mail, Power, Settings, User } from 'react-feather'
 
 // ** Reactstrap Imports
-import { UncontrolledDropdown, DropdownMenu, DropdownToggle, DropdownItem } from 'reactstrap'
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import { DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown } from 'reactstrap'
 
 
 // ** Default Avatar Image
@@ -23,26 +23,29 @@ const API_DOMAIN = "http://localhost:5000"
 const UserDropdown = () => {
   // ** State
   const [userData, setUserData] = useState(null)
-  //const history = useHistory();
+  const history = useHistory();
   //** ComponentDidMount
 
 
   //** Vars
   const userAvatar = (userData && userData.avatarUrl) || defaultAvatar
   const handleLogout = () => {
-    axios
-      .post(`${API_DOMAIN}/logout`, {
-      }, { withCredentials: true })
-      .then(() => {
-        localStorage.clear();
-        // history.push('/login')
-        // return <div></div>
-        window.location.href = "/login"
-      })
-      .catch((error) => {
-        console.error(error)
-      })
-  }
+    localStorage.clear();
+    history.push("/login");
+    //   axios
+    // .post(`${API_DOMAIN}/logout`, {
+    // }, { withCredentials: true })
+    // .then(() => {
+
+    //   // history.push('/login')
+    //   // return <div></div>
+
+    //   // window.location.href = "/login"
+    // })
+    // .catch((error) => {
+    //   console.error(error)
+    // })
+  };
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem('user'))
     if (user) {

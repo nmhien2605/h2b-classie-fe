@@ -9,7 +9,7 @@ export default [
   },
   {
     id: 'secondPage',
-    title: 'group',
+    title: 'Group',
     icon: <Users size={20} />,
     navLink: '/group'
   },

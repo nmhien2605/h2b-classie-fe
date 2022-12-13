@@ -33,7 +33,8 @@ const LoginCover = () => {
         const info = { ...res.data.user }
         localStorage.setItem("user", JSON.stringify(info))
         const temp = localStorage.getItem('user');
-        console.log(temp.toObject().email);
+        const user = JSON.parse(temp)
+        console.log(typeof user);
         history.push('/')
       })
       .catch((error) => {

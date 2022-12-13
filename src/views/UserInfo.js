@@ -6,7 +6,8 @@ const UserInfo = () => {
     const history = useHistory()
     const { search } = useLocation()
     const values = queryString.parse(search)
-    console.log(values.token)
+
+    console.log(search)
     console.log(values.user)
     localStorage.setItem("user", values.user)
     history.push('/')

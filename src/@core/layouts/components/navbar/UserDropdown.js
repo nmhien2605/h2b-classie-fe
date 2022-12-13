@@ -1,6 +1,6 @@
 // ** React Imports
 import { Link, useHistory } from 'react-router-dom'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import axios from 'axios'
 // ** Custom Components
 import Avatar from '@components/avatar'
@@ -14,13 +14,14 @@ import { User, Mail, CheckSquare, MessageSquare, Settings, CreditCard, HelpCircl
 // ** Reactstrap Imports
 import { UncontrolledDropdown, DropdownMenu, DropdownToggle, DropdownItem } from 'reactstrap'
 
+
 // ** Default Avatar Image
-import defaultAvatar from '@src/assets/images/portrait/small/avatar-s-11.jpg'
+const defaultAvatar = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROdEaZteLTepbACoy3MjSfAsulnfciHnp4nw&usqp=CAU'
 
 const API_DOMAIN = "http://localhost:5000"
 const UserDropdown = () => {
   // ** State
-  const [userData] = useState(null)
+  const [userData, setUserData] = useState(null)
   const history = useHistory();
   //** ComponentDidMount
   // useEffect(() => {
@@ -43,12 +44,18 @@ const UserDropdown = () => {
         console.error(error)
       })
   }
+  useEffect(() => {
+    const user = localStorage.getItem('user')
+    if (user) {
+      setUserData(user);
+      console.log(user);
+    }
+  }, [])
   return (
     <UncontrolledDropdown tag='li' className='dropdown-user nav-item'>
       <DropdownToggle href='/' tag='a' className='nav-link dropdown-user-link' onClick={e => e.preventDefault()}>
         <div className='user-nav d-sm-flex d-none'>
           <span className='user-name fw-bold'>{(userData && userData['username']) || 'John Doe'}</span>
-          <span className='user-status'>{(userData && userData.role) || 'Admin'}</span>
         </div>
         <Avatar img={userAvatar} imgHeight='40' imgWidth='40' status='online' />
       </DropdownToggle>
@@ -61,26 +68,11 @@ const UserDropdown = () => {
           <Mail size={14} className='me-75' />
           <span className='align-middle'>Inbox</span>
         </DropdownItem>
-        <DropdownItem tag='a' href='/apps/todo' onClick={e => e.preventDefault()}>
-          <CheckSquare size={14} className='me-75' />
-          <span className='align-middle'>Tasks</span>
-        </DropdownItem>
-        <DropdownItem tag='a' href='/apps/chat' onClick={e => e.preventDefault()}>
-          <MessageSquare size={14} className='me-75' />
-          <span className='align-middle'>Chats</span>
-        </DropdownItem>
+
         <DropdownItem divider />
         <DropdownItem tag='a' href='/pages/account-settings' onClick={e => e.preventDefault()}>
           <Settings size={14} className='me-75' />
           <span className='align-middle'>Settings</span>
-        </DropdownItem>
-        <DropdownItem tag='a' href='/pages/pricing' onClick={e => e.preventDefault()}>
-          <CreditCard size={14} className='me-75' />
-          <span className='align-middle'>Pricing</span>
-        </DropdownItem>
-        <DropdownItem tag='a' href='/pages/faq' onClick={e => e.preventDefault()}>
-          <HelpCircle size={14} className='me-75' />
-          <span className='align-middle'>FAQ</span>
         </DropdownItem>
         <DropdownItem tag={Link} onClick={handleLogout}>
           <Power size={14} className='me-75' />

@@ -109,7 +109,7 @@ const VerticalLayout = props => {
   }
 
   const navbarClasses = {
-    floating: contentWidth === 'boxed' ? 'floating-nav container-xxl' : 'floating-nav',
+    floating: contentWidth === 'boxed' ? 'floating-nav' : 'floating-nav',
     sticky: 'fixed-top',
     static: 'navbar-static-top',
     hidden: 'd-none'

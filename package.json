@@ -56,7 +56,7 @@
     "react-dropzone": "^11.4.2",
     "react-feather": "~2.0.3",
     "react-flatpickr": "^3.9.1",
-    "react-hook-form": "7.18.1",
+    "react-hook-form": "^7.18.1",
     "react-i18next": "^11.13.0",
     "react-paginate": "^7.0.0",
     "react-perfect-scrollbar": "^1.5.5",
@@ -101,6 +101,7 @@
   },
   "devDependencies": {
     "@types/sortablejs": "^1.10.6",
+    "dotenv-webpack": "^8.0.1",
     "eslint": "^7.11.0",
     "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-react": "^7.20.6",

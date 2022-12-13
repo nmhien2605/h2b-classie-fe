@@ -1,47 +1,67 @@
-import { Card, CardHeader, CardBody, CardTitle, CardText, CardLink } from 'reactstrap'
+import { Card, CardHeader, CardBody, CardTitle, CardText, Button, Row, Col, CardImg, CardFooter, CardSubtitle } from 'reactstrap'
+import img1 from '@src/assets/images/slider/03.jpg'
+import img2 from '@src/assets/images/slider/02.jpg'
+import img3 from '@src/assets/images/slider/01.jpg'
 
 const Home = () => {
   return (
     <div>
-      <Card>
-        <CardHeader>
-          <CardTitle>Kick start your project 🚀</CardTitle>
-        </CardHeader>
-        <CardBody>
-          <CardText>All the best for your new project.</CardText>
-          <CardText>
-            Please make sure to read our{' '}
-            <CardLink
-              href='https://pixinvent.com/demo/vuexy-react-admin-dashboard-template/documentation/'
-              target='_blank'
-            >
-              Template Documentation
-            </CardLink>{' '}
-            to understand where to go from here and how to use our template.
-          </CardText>
-        </CardBody>
-      </Card>
-
-      <Card>
-        <CardHeader>
-          <CardTitle>Want to integrate JWT? 🔒</CardTitle>
-        </CardHeader>
-        <CardBody>
-          <CardText>
-            We carefully crafted JWT flow so you can implement JWT with ease and with minimum efforts.
-          </CardText>
-          <CardText>
-            Please read our{' '}
-            <CardLink
-              href='https://pixinvent.com/demo/vuexy-react-admin-dashboard-template/documentation/docs/development/auth'
-              target='_blank'
-            >
-              JWT Documentation
-            </CardLink>{' '}
-            to get more out of JWT authentication.
-          </CardText>
-        </CardBody>
-      </Card>
+      <Row className='match-height mb-2'>
+        <Col md='4' xs='12'>
+          <Card>
+            <CardBody>
+              <CardTitle tag='h4'>Card Title</CardTitle>
+              <CardSubtitle className='text-muted'>Support card subtitle</CardSubtitle>
+            </CardBody>
+            <img className='img-fluid' src={img1} alt='Card cap' />
+            <CardBody>
+              <CardText>Bear claw sesame snaps gummies chocolate.</CardText>
+              <Button href='/' onClick={e => e.preventDefault()}>
+                Card Link
+              </Button>
+              <Button href='/' onClick={e => e.preventDefault()}>
+                Another Link
+              </Button>
+            </CardBody>
+          </Card>
+        </Col>
+        <Col md='4' xs='12'>
+          <Card>
+            <CardBody>
+              <CardTitle tag='h4'>Card Title</CardTitle>
+              <CardSubtitle className='text-muted'>Support card subtitle</CardSubtitle>
+            </CardBody>
+            <img className='img-fluid' src={img2} alt='Card cap' />
+            <CardBody>
+              <CardText>Bear claw sesame snaps gummies chocolate.</CardText>
+              <Button href='/' onClick={e => e.preventDefault()}>
+                Card Link
+              </Button>
+              <Button href='/' onClick={e => e.preventDefault()}>
+                Another Link
+              </Button>
+            </CardBody>
+          </Card>
+        </Col>
+        <Col md='4' xs='12'>
+          <Card>
+            <CardBody>
+              <CardTitle tag='h4'>Card Title</CardTitle>
+              <CardSubtitle className='text-muted'>Support card subtitle</CardSubtitle>
+            </CardBody>
+            <img className='img-fluid' src={img3} alt='Card cap' />
+            <CardBody>
+              <CardText>Bear claw sesame snaps gummies chocolate.</CardText>
+              <Button href='/' onClick={e => e.preventDefault()}>
+                Card Link
+              </Button>
+              <Button href='/' onClick={e => e.preventDefault()}>
+                Another Link
+              </Button>
+            </CardBody>
+          </Card>
+        </Col>
+      </Row>
     </div>
   )
 }

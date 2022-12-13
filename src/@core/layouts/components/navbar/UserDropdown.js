@@ -1,7 +1,7 @@
 // ** React Imports
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import { useState } from 'react'
-
+import axios from 'axios'
 // ** Custom Components
 import Avatar from '@components/avatar'
 
@@ -17,10 +17,11 @@ import { UncontrolledDropdown, DropdownMenu, DropdownToggle, DropdownItem } from
 // ** Default Avatar Image
 import defaultAvatar from '@src/assets/images/portrait/small/avatar-s-11.jpg'
 
+const API_DOMAIN = "http://localhost:5000"
 const UserDropdown = () => {
   // ** State
   const [userData] = useState(null)
-
+  const history = useHistory();
   //** ComponentDidMount
   // useEffect(() => {
   //   if (isUserLoggedIn() !== null) {
@@ -30,7 +31,18 @@ const UserDropdown = () => {
 
   //** Vars
   const userAvatar = (userData && userData.avatar) || defaultAvatar
-
+  const handleLogout = () => {
+    axios
+      .post(`${API_DOMAIN}/logout`, {
+      }, { withCredentials: true })
+      .then(() => {
+        localStorage.clear();
+        history.push('/login')
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+  }
   return (
     <UncontrolledDropdown tag='li' className='dropdown-user nav-item'>
       <DropdownToggle href='/' tag='a' className='nav-link dropdown-user-link' onClick={e => e.preventDefault()}>
@@ -70,7 +82,7 @@ const UserDropdown = () => {
           <HelpCircle size={14} className='me-75' />
           <span className='align-middle'>FAQ</span>
         </DropdownItem>
-        <DropdownItem tag={Link} to='/login'>
+        <DropdownItem tag={Link} onClick={handleLogout}>
           <Power size={14} className='me-75' />
           <span className='align-middle'>Logout</span>
         </DropdownItem>

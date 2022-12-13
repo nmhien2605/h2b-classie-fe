@@ -1,51 +1,72 @@
-import { useSkin } from '@hooks/useSkin'
+// ** React Imports
+// import { useContext } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import axios from "axios"
-//import { useNavigate } from "react-router-dom"
-import { Facebook, Twitter, Mail, GitHub } from 'react-feather'
-import InputPasswordToggle from '@components/input-password-toggle'
-import { Row, Col, CardTitle, CardText, Form, Label, Input, Button } from 'reactstrap'
-import '@styles/react/pages/page-authentication.scss'
+// ** Custom Hooks
+import { useSkin } from '@hooks/useSkin'
+// import useJwt from '@src/auth/jwt/useJwt'
+
+// ** Store & Actions
+// import { useDispatch } from 'react-redux'
+// import { handleLogin } from '@store/authentication'
+
+// ** Third Party Components
 import { useForm, Controller } from 'react-hook-form'
+import { Facebook, Twitter, Mail, GitHub } from 'react-feather'
+
+// ** Context
+import { AbilityContext } from '@src/utility/context/Can'
+
+// ** Custom Components
+import InputPasswordToggle from '@components/input-password-toggle'
+
+// ** Reactstrap Imports
+import { Row, Col, CardTitle, CardText, Label, Button, Form, Input, FormFeedback } from 'reactstrap'
+
+// ** Styles
+import '@styles/react/pages/page-authentication.scss'
 const API_DOMAIN = 'http://localhost:5000'
 const defaultValues = {
-  password: '',
-  email: ''
+  email: '',
+  terms: true,
+  name: '',
+  password: ''
 }
-//import { handleLogin } from '@store/authentication'
-const LoginCover = () => {
 
+const Register = () => {
+  // ** Hooks
   const { skin } = useSkin()
   const history = useHistory()
+  // const dispatch = useDispatch()
   const {
     control,
     //setError,
     handleSubmit,
     formState: { errors }
   } = useForm({ defaultValues })
+
+  const illustration = skin === 'dark' ? 'register-v2-dark.svg' : 'register-v2.svg',
+    source = require(`@src/assets/images/pages/${illustration}`).default
+
   const onSubmit = values => {
     axios
-      .post(`${API_DOMAIN}/login`, {
+      .post(`${API_DOMAIN}/sign-up`, {
+        name: values.username,
         email: values.email,
         password: values.password
-      }, { withCredentials: true })
+      })
       .then((res) => {
-        const info = { ...res.data.user }
-        localStorage.setItem("user", JSON.stringify(info))
-        const temp = localStorage.getItem('user');
-        console.log(temp.toObject().email);
-        history.push('/')
+        if (res.data.success) {
+          history.push("/login")
+        } else {
+          alert("Đăng kí không thành công")
+        }
       })
       .catch((error) => {
         console.error(error)
       })
 
   }
-  const loginGoogle = () => {
-    window.location.href = `${API_DOMAIN}/login/google`
-  }
-  const illustration = skin === 'dark' ? 'login-v2-dark.svg' : 'login-v2.svg',
-    source = require(`@src/assets/images/pages/${illustration}`).default
 
   return (
     <div className='auth-wrapper auth-cover'>
@@ -109,12 +130,27 @@ const LoginCover = () => {
         <Col className='d-flex align-items-center auth-bg px-2 p-lg-5' lg='4' sm='12'>
           <Col className='px-xl-2 mx-auto' sm='8' md='6' lg='12'>
             <CardTitle tag='h2' className='fw-bold mb-1'>
-              Welcome to Vuexy! 👋
+              Adventure starts here 🚀
             </CardTitle>
-            <CardText className='mb-2'>Please sign-in to your account and start the adventure</CardText>
-            <Form className='auth-login-form mt-2' onSubmit={handleSubmit(onSubmit)}>
+            <CardText className='mb-2'>Make your app management easy and fun!</CardText>
+
+            <Form action='/' className='auth-register-form mt-2' onSubmit={handleSubmit(onSubmit)}>
               <div className='mb-1'>
-                <Label className='form-label' for='login-email'>
+                <Label className='form-label' for='register-username'>
+                  Username
+                </Label>
+                <Controller
+                  id='username'
+                  name='username'
+                  control={control}
+                  render={({ field }) => (
+                    <Input autoFocus placeholder='Nguyen A' invalid={errors.username && true} {...field} />
+                  )}
+                />
+                {/* {errors.username ? <FormFeedback>{errors.username.message}</FormFeedback> : null} */}
+              </div>
+              <div className='mb-1'>
+                <Label className='form-label' for='register-email'>
                   Email
                 </Label>
                 <Controller
@@ -122,26 +158,15 @@ const LoginCover = () => {
                   name='email'
                   control={control}
                   render={({ field }) => (
-                    <Input
-                      autoFocus
-                      type='email'
-                      placeholder='example@gmail.com'
-                      invalid={errors.email && true}
-                      {...field}
-                    />
+                    <Input type='email' placeholder='example@gmail.com' invalid={errors.email && true} {...field} />
                   )}
                 />
-
+                {/* {errors.email ? <FormFeedback>{errors.email.message}</FormFeedback> : null} */}
               </div>
               <div className='mb-1'>
-                <div className='d-flex justify-content-between'>
-                  <Label className='form-label' for='login-password'>
-                    Password
-                  </Label>
-                  <Link to='/pages/forgot-password-cover'>
-                    <small>Forgot Password?</small>
-                  </Link>
-                </div>
+                <Label className='form-label' for='register-password'>
+                  Password
+                </Label>
                 <Controller
                   id='password'
                   name='password'
@@ -152,31 +177,30 @@ const LoginCover = () => {
                 />
               </div>
               <div className='form-check mb-1'>
-                <Input type='checkbox' id='remember-me' />
-                <Label className='form-check-label' for='remember-me'>
-                  Remember Me
+                <Controller
+                  name='terms'
+                  control={control}
+                  render={({ field }) => (
+                    <Input {...field} id='terms' type='checkbox' checked={field.value} invalid={errors.terms && true} />
+                  )}
+                />
+                <Label className='form-check-label' for='terms'>
+                  I agree to
+                  <a className='ms-25' href='/' onClick={e => e.preventDefault()}>
+                    privacy policy & terms
+                  </a>
                 </Label>
               </div>
-              <Button color='primary' block to='/' type="submit">
-                Sign in
+              <Button type='submit' block color='primary'>
+                Sign up
               </Button>
             </Form>
             <p className='text-center mt-2'>
-              <span className='me-25'>New on our platform?</span>
-              <Link to='/register'>
-                <span>Create an account</span>
+              <span className='me-25'>Already have an account?</span>
+              <Link to='/login'>
+                <span>Sign in instead</span>
               </Link>
             </p>
-            <div className='divider my-2'>
-              <div className='divider-text'>or</div>
-            </div>
-            <div className='auth-footer-btn d-flex justify-content-center'>
-
-              <Button outline color='primary' block to='/' onClick={loginGoogle}>
-                <GoogleIcon size={20} />
-              </Button>
-
-            </div>
           </Col>
         </Col>
       </Row>
@@ -184,33 +208,4 @@ const LoginCover = () => {
   )
 }
 
-function GoogleIcon() {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      preserveAspectRatio="xMidYMid"
-      viewBox="0 0 256 262"
-      width={14}
-      height={14}
-
-    >
-      <path
-        fill="#4285F4"
-        d="M255.878 133.451c0-10.734-.871-18.567-2.756-26.69H130.55v48.448h71.947c-1.45 12.04-9.283 30.172-26.69 42.356l-.244 1.622 38.755 30.023 2.685.268c24.659-22.774 38.875-56.282 38.875-96.027"
-      />
-      <path
-        fill="#34A853"
-        d="M130.55 261.1c35.248 0 64.839-11.605 86.453-31.622l-41.196-31.913c-11.024 7.688-25.82 13.055-45.257 13.055-34.523 0-63.824-22.773-74.269-54.25l-1.531.13-40.298 31.187-.527 1.465C35.393 231.798 79.49 261.1 130.55 261.1"
-      />
-      <path
-        fill="#FBBC05"
-        d="M56.281 156.37c-2.756-8.123-4.351-16.827-4.351-25.82 0-8.994 1.595-17.697 4.206-25.82l-.073-1.73L15.26 71.312l-1.335.635C5.077 89.644 0 109.517 0 130.55s5.077 40.905 13.925 58.602l42.356-32.782"
-      />
-      <path
-        fill="#EB4335"
-        d="M130.55 50.479c24.514 0 41.05 10.589 50.479 19.438l36.844-35.974C195.245 12.91 165.798 0 130.55 0 79.49 0 35.393 29.301 13.925 71.947l42.211 32.783c10.59-31.477 39.891-54.251 74.414-54.251"
-      />
-    </svg>
-  )
-}
-export default LoginCover
+export default Register

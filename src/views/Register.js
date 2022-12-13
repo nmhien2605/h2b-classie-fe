@@ -19,7 +19,9 @@ import { AbilityContext } from '@src/utility/context/Can'
 
 // ** Custom Components
 import InputPasswordToggle from '@components/input-password-toggle'
-
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+const MySwal = withReactContent(Swal);
 // ** Reactstrap Imports
 import { Row, Col, CardTitle, CardText, Label, Button, Form, Input, FormFeedback } from 'reactstrap'
 
@@ -34,6 +36,17 @@ const defaultValues = {
 }
 
 const Register = () => {
+  const handleError = (message) => {
+    return MySwal.fire({
+      title: 'Error!',
+      text: message,
+      icon: 'error',
+      customClass: {
+        confirmButton: 'btn btn-primary'
+      },
+      buttonsStyling: false
+    })
+  }
   // ** Hooks
   const { skin } = useSkin()
   const history = useHistory()
@@ -64,6 +77,7 @@ const Register = () => {
       })
       .catch((error) => {
         console.error(error)
+        handleError(error.response.data.msg);
       })
 
   }

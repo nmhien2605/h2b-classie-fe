@@ -5,6 +5,10 @@ import axios from "axios"
 //import { useNavigate } from "react-router-dom"
 import InputPasswordToggle from '@components/input-password-toggle'
 import { Row, Col, CardTitle, CardText, Form, Label, Input, Button } from 'reactstrap'
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+const MySwal = withReactContent(Swal);
+
 import '@styles/react/pages/page-authentication.scss'
 import { useForm, Controller } from 'react-hook-form'
 const API_DOMAIN = 'http://localhost:5000'
@@ -15,6 +19,17 @@ const defaultValues = {
 //import { handleLogin } from '@store/authentication'
 const LoginCover = () => {
 
+  const handleError = (message) => {
+    return MySwal.fire({
+      title: 'Error!',
+      text: message,
+      icon: 'error',
+      customClass: {
+        confirmButton: 'btn btn-primary'
+      },
+      buttonsStyling: false
+    })
+  }
   const { skin } = useSkin()
   const history = useHistory()
   const {
@@ -33,7 +48,8 @@ const LoginCover = () => {
         history.push('/getinfo')
       })
       .catch((error) => {
-        console.error(error)
+        console.error(error.response)
+        handleError(error.response.data.msg);
       })
 
   }

@@ -79,7 +79,7 @@ const AccountSettings = () => {
 
   return (
     <Fragment>
-      <Breadcrumbs breadCrumbTitle='Account Settings' breadCrumbParent='Pages' breadCrumbActive='Account Settings' />
+      <Breadcrumbs breadCrumbTitle='Account Settings' />
       {data !== null ? (
         <Row>
           <Col xs={12}>

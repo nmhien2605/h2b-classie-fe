@@ -17,6 +17,14 @@ const Routes = [
     component: lazy(() => import('../../views/groups/Group'))
   },
   {
+    path: '/account-settings',
+    component: lazy(() => import('../../views/account-settings'))
+  },
+  {
+    path: '/my-slides',
+    component: lazy(() => import('../../views/slides'))
+  },
+  {
     path: '/create-slide',
     component: lazy(() => import('../../views/createSlide/CreateSlide'))
   },
@@ -31,10 +39,6 @@ const Routes = [
   {
     path: '/getinfo',
     component: lazy(() => import('../../views/UserInfo')),
-    layout: 'BlankLayout',
-    meta: {
-      authRoute: true
-    }
   },
   {
     path: '/register',

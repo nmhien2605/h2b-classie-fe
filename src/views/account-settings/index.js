@@ -1,8 +1,6 @@
 // ** React Imports
 import { Fragment, useState, useEffect } from 'react'
 
-// ** Third Party Components
-import axios from 'axios'
 
 // ** Reactstrap Imports
 import { Row, Col, TabContent, TabPane } from 'reactstrap'
@@ -14,7 +12,6 @@ import Breadcrumbs from '@components/breadcrumbs'
 import AccountTabContent from './AccountTabContent'
 import SecurityTabContent from './SecurityTabContent'
 import ConnectionsTabContent from './ConnectionsTabContent'
-import NotificationsTabContent from './NotificationsTabContent'
 
 // ** Styles
 import '@styles/react/libs/flatpickr/flatpickr.scss'
@@ -22,15 +19,62 @@ import '@styles/react/pages/page-account-settings.scss'
 
 const AccountSettings = () => {
   // ** States
-  const [activeTab, setActiveTab] = useState('1')
+  const [activeTab, setActiveTab] = useState('1');
   const [data, setData] = useState(null)
+
+  const fakeData = {
+    general: {
+      avatar: "/static/media/avatar-s-11.1d46cc62.jpg",
+      username: "johndoe",
+      fullName: "John Doe",
+      email: "granger007@hogward.com",
+      company: "PIXINVENT"
+    },
+    info: {
+      bio: "",
+      dob: null,
+      country: "USA",
+      website: "",
+      phone: 6562542568
+    },
+    social: {
+      socialLinks: {
+        twitter: "https://www.twitter.com",
+        facebook: "",
+        google: "",
+        linkedIn: "https://www.linkedin.com",
+        instagram: "",
+        quora: ""
+      },
+      connections: {
+        twitter: {
+          profileImg: "/static/media/11-small.5c61c575.png",
+          id: "johndoe"
+        },
+        google: {
+          profileImg: "/static/media/3-small.8d6585e8.png",
+          id: "luraweber"
+        },
+        facebook: {},
+        github: {}
+      }
+    },
+    notification: {
+      commentOnArticle: true,
+      answerOnForm: true,
+      followMe: false,
+      newAnnouncements: true,
+      productUpdates: true,
+      blogDigest: false
+    }
+  }
 
   const toggleTab = tab => {
     setActiveTab(tab)
   }
 
   useEffect(() => {
-    axios.get('/account-setting/data').then(response => setData(response.data))
+    setData(fakeData)
   }, [])
 
   return (

@@ -1,6 +1,6 @@
 import { colors } from "../../constants/chartColor";
 
-export const buildData = (options, value) => {
+export const buildData = (options = [], value = []) => {
   return {
     labels: [...options],
     datasets: [

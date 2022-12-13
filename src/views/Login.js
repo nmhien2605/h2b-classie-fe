@@ -1,8 +1,8 @@
 import { useSkin } from '@hooks/useSkin'
 import { Link, useHistory } from 'react-router-dom'
 import axios from "axios"
+
 //import { useNavigate } from "react-router-dom"
-import { Facebook, Twitter, Mail, GitHub } from 'react-feather'
 import InputPasswordToggle from '@components/input-password-toggle'
 import { Row, Col, CardTitle, CardText, Form, Label, Input, Button } from 'reactstrap'
 import '@styles/react/pages/page-authentication.scss'
@@ -29,13 +29,8 @@ const LoginCover = () => {
         email: values.email,
         password: values.password
       }, { withCredentials: true })
-      .then((res) => {
-        const info = { ...res.data.user }
-        localStorage.setItem("user", JSON.stringify(info))
-        const temp = localStorage.getItem('user');
-        const user = JSON.parse(temp)
-        console.log(typeof user);
-        history.push('/')
+      .then(() => {
+        history.push('/getinfo')
       })
       .catch((error) => {
         console.error(error)

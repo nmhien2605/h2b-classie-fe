@@ -9,12 +9,12 @@ const getIcon = (slideType) => {
     case SLIDE_TYPE.MUL_CHOICES:
       return <BarChart />;
     default:
-      return "";
+      return <BarChart />;
   }
 };
 
 const SlideList = ({ data, current, setCurrent, handleAddNewSlide }) => {
-  const { slide: slides } = data;
+  const { slides } = data;
 
   return (
     <Card>

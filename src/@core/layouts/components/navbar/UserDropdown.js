@@ -1,6 +1,6 @@
 // ** React Imports
-import { Link, useHistory } from 'react-router-dom'
-import { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
+// import { useState, useEffect } from 'react'
 import axios from 'axios'
 // ** Custom Components
 import Avatar from '@components/avatar'
@@ -13,6 +13,7 @@ import { User, Mail, CheckSquare, MessageSquare, Settings, CreditCard, HelpCircl
 
 // ** Reactstrap Imports
 import { UncontrolledDropdown, DropdownMenu, DropdownToggle, DropdownItem } from 'reactstrap'
+import { useState, useEffect } from 'react'
 
 
 // ** Default Avatar Image
@@ -22,40 +23,37 @@ const API_DOMAIN = "http://localhost:5000"
 const UserDropdown = () => {
   // ** State
   const [userData, setUserData] = useState(null)
-  const history = useHistory();
+  //const history = useHistory();
   //** ComponentDidMount
-  // useEffect(() => {
-  //   if (isUserLoggedIn() !== null) {
-  //     setUserData(JSON.parse(localStorage.getItem('userData')))
-  //   }
-  // }, [])
+
 
   //** Vars
-  const userAvatar = (userData && userData.avatar) || defaultAvatar
+  const userAvatar = (userData && userData.avatarUrl) || defaultAvatar
   const handleLogout = () => {
     axios
       .post(`${API_DOMAIN}/logout`, {
       }, { withCredentials: true })
       .then(() => {
         localStorage.clear();
-        history.push('/login')
+        // history.push('/login')
+        // return <div></div>
+        window.location.href = "/login"
       })
       .catch((error) => {
         console.error(error)
       })
   }
   useEffect(() => {
-    const user = localStorage.getItem('user')
+    const user = JSON.parse(localStorage.getItem('user'))
     if (user) {
       setUserData(user);
-      console.log(user);
     }
   }, [])
   return (
     <UncontrolledDropdown tag='li' className='dropdown-user nav-item'>
       <DropdownToggle href='/' tag='a' className='nav-link dropdown-user-link' onClick={e => e.preventDefault()}>
         <div className='user-nav d-sm-flex d-none'>
-          <span className='user-name fw-bold'>{(userData && userData['username']) || 'John Doe'}</span>
+          <span className='user-name fw-bold'>{(userData && userData.name) || 'Unknown'}</span>
         </div>
         <Avatar img={userAvatar} imgHeight='40' imgWidth='40' status='online' />
       </DropdownToggle>
@@ -70,7 +68,7 @@ const UserDropdown = () => {
         </DropdownItem>
 
         <DropdownItem divider />
-        <DropdownItem tag='a' href='/pages/account-settings' onClick={e => e.preventDefault()}>
+        <DropdownItem tag='a' href='/account-settings' >
           <Settings size={14} className='me-75' />
           <span className='align-middle'>Settings</span>
         </DropdownItem>

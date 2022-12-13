@@ -9,6 +9,10 @@ const DefaultRoute = '/home'
 // ** Merge Routes
 const Routes = [
   {
+    path: '/socket',
+    component: lazy(() => import('../../views/TestSocket'))
+  },
+  {
     path: '/home',
     component: lazy(() => import('../../views/Home'))
   },

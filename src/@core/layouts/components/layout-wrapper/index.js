@@ -69,7 +69,7 @@ const LayoutWrapper = props => {
         className={classnames({
           'content-wrapper': !appLayout,
           'content-area-wrapper': appLayout,
-          'container-xxl p-0': contentWidth === 'boxed',
+          'p-0': contentWidth === 'boxed',
           [`animate__animated animate__${transition}`]: transition !== 'none' && transition.length
         })}
       >

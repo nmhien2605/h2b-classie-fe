@@ -13,11 +13,12 @@ import { BrowserRouter as AppRouter, Route, Switch, Redirect } from 'react-route
 
 // ** Routes & Default Routes
 import { DefaultRoute, Routes } from './routes'
-
+import { isUserLoggedIn } from '@utils'
 // ** Layouts
 import BlankLayout from '@layouts/BlankLayout'
 import VerticalLayout from '@src/layouts/VerticalLayout'
 import HorizontalLayout from '@src/layouts/HorizontalLayout'
+import Presentation from '../views/presentation'
 
 const Router = () => {
   // ** Hooks
@@ -59,39 +60,40 @@ const Router = () => {
   /**
    ** Final Route Component Checks for Login & User Role and then redirects to the route
    */
-  // const FinalRoute = props => {
-  //   const route = props.route
-  //   let action, resource
+  const FinalRoute = props => {
 
-  //   // ** Assign vars based on route meta
-  //   if (route.meta) {
-  //     action = route.meta.action ? route.meta.action : null
-  //     resource = route.meta.resource ? route.meta.resource : null
-  //   }
+    const route = props.route
+    let action, resource
+    /*eslint-disable */
+    // ** Assign vars based on route meta
+    if (route.meta) {
+      action = route.meta.action ? route.meta.action : null
+      resource = route.meta.resource ? route.meta.resource : null
+    }
 
-  //   if (
-  //     (!isUserLoggedIn() && route.meta === undefined) ||
-  //     (!isUserLoggedIn() && route.meta && !route.meta.authRoute && !route.meta.publicRoute)
-  //   ) {
-  //     /**
-  //      ** If user is not Logged in & route meta is undefined
-  //      ** OR
-  //      ** If user is not Logged in & route.meta.authRoute, !route.meta.publicRoute are undefined
-  //      ** Then redirect user to login
-  //      */
-
-  //     return <Redirect to='/login' />
-  //   } else if (route.meta && route.meta.authRoute && isUserLoggedIn()) {
-  //     // ** If route has meta and authRole and user is Logged in then redirect user to home page (DefaultRoute)
-  //     return <Redirect to='/' />
-  //   } else if (isUserLoggedIn() && !ability.can(action || 'read', resource)) {
-  //     // ** If user is Logged in and doesn't have ability to visit the page redirect the user to Not Authorized
-  //     return <Redirect to='/misc/not-authorized' />
-  //   } else {
-  //     // ** If none of the above render component
-  //     return <route.component {...props} />
-  //   }
-  // }
+    if (
+      (!isUserLoggedIn() && route.meta === undefined) ||
+      (!isUserLoggedIn() && route.meta && !route.meta.authRoute && !route.meta.publicRoute)
+    ) {
+      /**
+       ** If user is not Logged in & route meta is undefined
+       ** OR
+       ** If user is not Logged in & route.meta.authRoute, !route.meta.publicRoute are undefined
+       ** Then redirect user to login
+       */
+      return <Redirect to='/login' />
+    } else if (route.meta && route.meta.authRoute && isUserLoggedIn()) {
+      // ** If route has meta and authRole and user is Logged in then redirect user to home page (DefaultRoute)
+      return <Redirect to='/' />
+      // } else if (isUserLoggedIn() && !ability.can(action || 'read', resource)) {
+      //   // ** If user is Logged in and doesn't have ability to visit the page redirect the user to Not Authorized
+      //   return <Redirect to='/misc/not-authorized' />
+    } else {
+      // ** If none of the above render component
+      return <route.component {...props} />
+    }
+    /*eslint-enable */
+  }
 
   // ** Return Route to Render
   const ResolveRoutes = () => {
@@ -143,7 +145,7 @@ const Router = () => {
 
                           {route.layout === 'BlankLayout' ? (
                             <Fragment>
-                              <route.component {...props} />
+                              <FinalRoute route={route} {...props} />
                             </Fragment>
                           ) : (
                             <LayoutWrapper
@@ -154,23 +156,23 @@ const Router = () => {
                               /*eslint-disable */
                               {...(route.appLayout
                                 ? {
-                                    appLayout: route.appLayout
-                                  }
+                                  appLayout: route.appLayout
+                                }
                                 : {})}
                               {...(route.meta
                                 ? {
-                                    routeMeta: route.meta
-                                  }
+                                  routeMeta: route.meta
+                                }
                                 : {})}
                               {...(route.className
                                 ? {
-                                    wrapperClass: route.className
-                                  }
+                                  wrapperClass: route.className
+                                }
                                 : {})}
-                              /*eslint-enable */
+                            /*eslint-enable */
                             >
                               <Suspense fallback={null}>
-                                <route.component {...props} />
+                                <FinalRoute route={route} {...props} />
                               </Suspense>
                             </LayoutWrapper>
                           )}
@@ -193,15 +195,15 @@ const Router = () => {
         {/* If user is logged in Redirect user to DefaultRoute else to login */}
         <Route
           exact
-          path='/'
+          path="/"
           render={() => {
-            return <Redirect to={DefaultRoute} />
+            return isUserLoggedIn() ? <Redirect to={DefaultRoute} /> : <Redirect to='/login' />
           }}
         />
         {/* Not Auth Route */}
         <Route
           exact
-          path='/misc/not-authorized'
+          path="/misc/not-authorized"
           render={() => (
             <Layouts.BlankLayout>
               <NotAuthorized />
@@ -210,11 +212,13 @@ const Router = () => {
         />
         {ResolveRoutes()}
 
+        <Route exact path={"/view-slide"} component={Presentation} />
+
         {/* NotFound Error page */}
-        <Route path='*' component={Error} />
+        <Route path="*" component={Error} />
       </Switch>
     </AppRouter>
-  )
+  );
 }
 
 export default Router

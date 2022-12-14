@@ -35,7 +35,7 @@ const VerticalNavMenuGroup = ({
   const location = useLocation()
 
   // ** Current Val
-  const currentURL = useLocation().pathname
+  const currentURL = useLocation()?.pathname
 
   // ** Toggle Open Group
   const toggleOpenGroup = (item, parent) => {

@@ -19,6 +19,7 @@ import BlankLayout from '@layouts/BlankLayout'
 import VerticalLayout from '@src/layouts/VerticalLayout'
 import HorizontalLayout from '@src/layouts/HorizontalLayout'
 import Presentation from '../views/presentation'
+import PresentationView from '../views/presentation/PresentationView'
 
 const Router = () => {
   // ** Hooks
@@ -212,6 +213,7 @@ const Router = () => {
         {ResolveRoutes()}
 
         <Route exact path={"/view-slide"} component={Presentation} />
+        <Route exact path={"/vote-slide"} component={PresentationView} />
 
         {/* NotFound Error page */}
         <Route path="*" component={Error} />

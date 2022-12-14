@@ -1,23 +1,52 @@
-import { io } from 'socket.io-client'
+import { useState, createContext } from "react";
+import { io } from "socket.io-client";
 
-export const socket = io('http://localhost:5000')
+export const SocketContext = createContext();
 
-socket.on('connect', () => {
-  console.log("connected to server")
-})
+export const socket = io("http://localhost:5000");
 
-socket.on('res-join-room', (msg) => {
-  console.log(msg)
-})
+export const useSocket = () => {
+  const [socketData, setSocketData] = useState({ event: "", data: {} });
 
-// socket.on('res-send-to-room', (data) => {
-//   console.log(data)
-// })
+  socket.on("connect", () => {
+    console.log("connected to server");
+  });
+
+  socket.on("res-host-room", (data) => {
+    setSocketData({ event: "host-room", data });
+  });
+
+  socket.on("res-join-room", (data) => {
+    setSocketData({ event: "join-room", data });
+  });
+
+  socket.on('res-vote-room', (data) => {
+    setSocketData({ event: "update-slide", data });
+  })
+
+  socket.on('res-next-slide', (data) => {
+    setSocketData({ event: "next-slide", data });
+  })
+
+  return socketData;
+};
+
+export const hostRoom = (room) => {
+  socket.emit("req-host-room", room);
+};
+
+export const closeRoom = () => {
+  socket.emit("req-close-room", "");
+};
 
 export const joinRoom = (room) => {
-  socket.emit('req-join-room', room)
-}
+  socket.emit("req-join-room", room);
+};
 
-export const sendToRoom = (room, data) => {
-  socket.emit('req-send-to-room', room, data)
-}
+export const voteRoom = (room, data) => {
+  socket.emit("req-vote-room", room, data);
+};
+
+export const nextSlide = (room) => {
+  socket.emit("req-next-slide", room);
+};

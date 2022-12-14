@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { socket, joinRoom, sendToRoom } from "../utility/Socket"
+import { socket, joinRoom, voteRoom } from "../utility/Socket"
 
 function Socket() {
   const [room, setRoom] = useState("")
@@ -14,7 +14,7 @@ function Socket() {
   }
 
   const send = () => {
-    sendToRoom(room, { data: msg })
+    voteRoom(room, { data: msg })
   }
 
   return (

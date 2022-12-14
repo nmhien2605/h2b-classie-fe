@@ -1,6 +1,15 @@
 // ** Router Import
-import Router from './router/Router'
+import Router from "./router/Router";
 
-const App = () => <Router />
+import { SocketContext, useSocket } from "./utility/Socket";
 
-export default App
+const App = () => {
+  const socketData = useSocket();
+  return (
+    <SocketContext.Provider value={socketData}>
+      <Router />
+    </SocketContext.Provider>
+  );
+};
+
+export default App;

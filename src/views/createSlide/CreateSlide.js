@@ -6,6 +6,7 @@ import "@styles/base/pages/page-misc.scss";
 import { selectThemeColors } from "@utils";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import {
   Button,
@@ -17,6 +18,7 @@ import {
   Label,
   Row,
 } from "reactstrap";
+import { Play } from "react-feather";
 import { SuccessToast } from "../../components/toast";
 import { SLIDE_TYPE } from "../../constants/slide";
 import { buildData } from "../../utility/chartData/barChartData";
@@ -50,6 +52,7 @@ const CreateSlide = () => {
   const [currentSlide, setCurrentSlide] = useState(data.slides[current]);
 
   const searchParams = new URLSearchParams(document.location.search);
+  const history = useHistory();
 
   useEffect(() => {
     const slideData = data.slides[current];
@@ -143,6 +146,11 @@ const CreateSlide = () => {
     setData({ ...data, name: event.target.value });
   };
 
+  const handlePresent = () => {
+    const id = searchParams.get("id");
+    history.push(`/view-slide?id=${id}`);
+  };
+
   return (
     <>
       {!isCreated ? (
@@ -193,6 +201,12 @@ const CreateSlide = () => {
             </Card>
           </Col>
           <Col xl={3} md={6}>
+            <Card>
+              <Button onClick={handlePresent} color="success">
+                <Play size={14} />
+                Present
+              </Button>
+            </Card>
             <Card>
               <CardBody>
                 <div>

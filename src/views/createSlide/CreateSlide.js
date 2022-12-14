@@ -150,7 +150,6 @@ const CreateSlide = () => {
     const id = searchParams.get("id");
     history.push(`/view-slide?id=${id}`);
   };
-
   return (
     <>
       {!isCreated ? (
@@ -185,9 +184,11 @@ const CreateSlide = () => {
                     onChange={handleChangePresentationName}
                   />
                 </div>
-                <Button onClick={handleSaveSlide} color="success">
-                  Save Slide
-                </Button>
+                <Row>
+                  <Button onClick={handleSaveSlide} color="success">
+                    Save Presentation
+                  </Button>
+                </Row>
               </CardHeader>
               <CardBody>
                 <SlideView

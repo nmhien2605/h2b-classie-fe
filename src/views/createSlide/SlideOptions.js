@@ -76,9 +76,9 @@ const SlideOptions = ({ title, setTitle, options, setOptions }) => {
             >
               Add option
             </Button>
-            <Button outline color="secondary" type="reset" className="mt-1">
+            {/* <Button outline color="secondary" type="reset" className="mt-1">
               Reset
-            </Button>
+            </Button> */}
           </Row>
         </Form>
       </CardBody>

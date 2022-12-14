@@ -102,7 +102,7 @@ const Presentation = () => {
 
           {/* if slide type = multi choice */}
           <SlideView
-            title={`Go to www.h2b.com and use the code ${code}`}
+            title={`Go to https://h2b-classie.vercel.app/vote-slide and use the code ${code}`}
             chartData={buildData(
               slides[current].detail.options,
               slides[current].detail.values

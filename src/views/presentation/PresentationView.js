@@ -21,6 +21,10 @@ import { SocketContext, joinRoom, voteRoom } from "../../utility/Socket";
 
 const API_DOMAIN = process.env.REACT_APP_API_DOMAIN;
 
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+const MySwal = withReactContent(Swal);
+
 const PresentationView = () => {
   const socketData = useContext(SocketContext);
   const [slides, setSlides] = useState([
@@ -41,6 +45,14 @@ const PresentationView = () => {
         setCurrent(socketData.data.current);
       } else {
         console.log(socketData.data);
+        MySwal.fire({
+          title: "Join failed!",
+          icon: "error",
+          customClass: {
+            confirmButton: "btn btn-primary",
+          },
+          buttonsStyling: false,
+        });
         // noti room not online or incorret code
       }
     } else if (socketData.event === "next-slide") {
@@ -63,13 +75,15 @@ const PresentationView = () => {
   return (
     <>
       {!isJoined ? (
-        <Card style={{ border: "1px solid black", marginBottom: 0 }}>
+        <Card style={{ marginBottom: 0, margin: "40px" }}>
           <CardHeader className="justify-content-center">
             <CardTitle tag={"h2"}>Join with Code</CardTitle>
           </CardHeader>
           <CardBody>
             <Input value={code} onChange={(e) => setCode(e.target.value)} />
-            <Button onClick={handleJoin}>Join</Button>
+            <Button onClick={handleJoin} className="mt-2" color="primary">
+              Join
+            </Button>
           </CardBody>
         </Card>
       ) : (

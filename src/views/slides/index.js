@@ -6,6 +6,7 @@ import PerfectScrollbar from "react-perfect-scrollbar";
 import { Link } from "react-router-dom";
 import {
   Badge,
+  Button,
   Card,
   CardBody,
   CardHeader,
@@ -122,26 +123,25 @@ const MyPresentations = () => {
                   return (
                     <Col key={presentation._id} sm={12}>
                       <div className="bg-light-secondary position-relative rounded p-2">
-                        <UncontrolledDropdown className="btn-pinned">
-                          <DropdownToggle tag="span">
-                            <MoreVertical size={18} />
-                          </DropdownToggle>
-                          <DropdownMenu>
-                            <DropdownItem className="d-flex align-items-center">
-                              <Link to={`/create-slide?id=${presentation._id}`}>
-                                <Edit2 size={14} className="me-50" />
-                                <span>Edit</span>
-                              </Link>
-                            </DropdownItem>
-                            <DropdownItem
+                        <Row className="btn-pinned align-items-center">
+                          <Col>
+                            <Link to={`/create-slide?id=${presentation._id}`}>
+                              <Edit2 size={14} className="me-50" />
+                              <span>Deteail</span>
+                            </Link>
+                          </Col>
+                          <Col>
+                            <Button
                               className="d-flex align-items-center"
+                              color="danger"
+                              outline
                               onClick={() => onDelete(presentation._id)}
                             >
                               <Trash2 size={14} className="me-50" />
                               <span>Delete</span>
-                            </DropdownItem>
-                          </DropdownMenu>
-                        </UncontrolledDropdown>
+                            </Button>
+                          </Col>
+                        </Row>
                         <div className="d-flex align-items-center flex-wrap">
                           <h4 className="mb-1 me-1">{presentation.name}</h4>
                           <Badge className="mb-1" color="light-primary">

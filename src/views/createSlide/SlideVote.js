@@ -7,6 +7,8 @@ const SlideVote = ({ title, options, handleVote }) => {
     return (
       <div>
         <Button
+        className="btn my-2"
+        color="primary"
           key={key}
           onClick={() => {
             handleVote(key);

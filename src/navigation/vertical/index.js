@@ -1,5 +1,13 @@
-import { Mail, Home, Trello, Users } from "react-feather";
-
+import React from "react";
+// icon library
+import { Airplay, Cast, Home, Trello, Users } from "react-feather";
+//another icon library
+import { HiOutlinePresentationChartBar } from "react-icons/hi2";
+class Presentation extends React.Component {
+  render() {
+    return <span size={20}><HiOutlinePresentationChartBar /> </span>
+  }
+}
 export default [
   {
     id: "home",
@@ -16,7 +24,7 @@ export default [
   {
     id: "group",
     title: "My Presentations",
-    icon: <Users size={20} />,
+    icon: <Presentation />,
     navLink: "/my-slides",
   },
   {

@@ -39,6 +39,10 @@ const Routes = [
   {
     path: '/getinfo',
     component: lazy(() => import('../../views/UserInfo')),
+    layout: 'BlankLayout',
+    meta: {
+      authRoute: true
+    }
   },
   {
     path: '/register',

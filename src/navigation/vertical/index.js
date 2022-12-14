@@ -15,12 +15,12 @@ export default [
     icon: <Home size={20} />,
     navLink: "/home",
   },
-  {
-    id: 'secondPage',
-    title: 'Group',
-    icon: <Users size={20} />,
-    navLink: "/group",
-  },
+  // {
+  //   id: 'secondPage',
+  //   title: 'Group',
+  //   icon: <Users size={20} />,
+  //   navLink: "/group",
+  // },
   {
     id: "group",
     title: "My Presentations",

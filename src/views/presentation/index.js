@@ -11,7 +11,7 @@ import { Button } from "reactstrap";
 
 import { SocketContext, hostRoom, closeRoom, nextSlide } from "../../utility/Socket";
 
-const API_DOMAIN = "http://localhost:5000";
+const API_DOMAIN = process.env.REACT_APP_API_DOMAIN;
 
 const Presentation = () => {
   const socketData = useContext(SocketContext);
@@ -28,7 +28,7 @@ const Presentation = () => {
 
   const getData = (id) => {
     axios
-      .put(`${API_DOMAIN}/presentations/enable/${id}`, {
+      .put(`${API_DOMAIN}/presentations/enable/${id}`, {}, {
         withCredentials: true,
       })
       .then((res) => {

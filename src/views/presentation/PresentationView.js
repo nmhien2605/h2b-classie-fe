@@ -19,7 +19,7 @@ import {
 
 import { SocketContext, joinRoom, voteRoom } from "../../utility/Socket";
 
-const API_DOMAIN = "http://localhost:5000";
+const API_DOMAIN = process.env.REACT_APP_API_DOMAIN;
 
 const PresentationView = () => {
   const socketData = useContext(SocketContext);

@@ -3,7 +3,7 @@ import { io } from "socket.io-client";
 
 export const SocketContext = createContext();
 
-export const socket = io("http://localhost:5000");
+export const socket = io(process.env.REACT_APP_API_DOMAIN);
 
 export const useSocket = () => {
   const [socketData, setSocketData] = useState({ event: "", data: {} });

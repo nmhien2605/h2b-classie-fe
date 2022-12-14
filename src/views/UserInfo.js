@@ -3,7 +3,7 @@ import { React } from "react"
 import axios from "axios"
 // import { handleLogin } from "../redux/authentication"
 
-const API_DOMAIN = 'http://localhost:5000'
+const API_DOMAIN = process.env.REACT_APP_API_DOMAIN;
 const UserInfo = () => {
     const history = useHistory()
 

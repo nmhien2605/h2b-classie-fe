@@ -11,7 +11,7 @@ const MySwal = withReactContent(Swal);
 
 import '@styles/react/pages/page-authentication.scss'
 import { useForm, Controller } from 'react-hook-form'
-const API_DOMAIN = 'http://localhost:5000'
+const API_DOMAIN = process.env.REACT_APP_API_DOMAIN;
 const defaultValues = {
   password: '',
   email: ''

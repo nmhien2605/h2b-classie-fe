@@ -27,7 +27,7 @@ import { Row, Col, CardTitle, CardText, Label, Button, Form, Input, FormFeedback
 
 // ** Styles
 import '@styles/react/pages/page-authentication.scss'
-const API_DOMAIN = 'http://localhost:5000'
+const API_DOMAIN = process.env.REACT_APP_API_DOMAIN;
 const defaultValues = {
   email: '',
   terms: true,

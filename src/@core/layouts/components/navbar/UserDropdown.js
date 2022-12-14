@@ -19,7 +19,7 @@ import { DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown } from
 // ** Default Avatar Image
 const defaultAvatar = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROdEaZteLTepbACoy3MjSfAsulnfciHnp4nw&usqp=CAU'
 
-const API_DOMAIN = "http://localhost:5000"
+const API_DOMAIN = process.env.REACT_APP_API_DOMAIN;
 const UserDropdown = () => {
   // ** State
   const [userData, setUserData] = useState(null)

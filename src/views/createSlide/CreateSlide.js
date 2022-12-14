@@ -85,7 +85,7 @@ const CreateSlide = () => {
         title: "Your question",
         type: slideType,
         options: ["x", "y"],
-        values: [1, 1],
+        values: [0, 0],
       },
     };
 

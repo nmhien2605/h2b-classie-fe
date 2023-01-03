@@ -1,9 +1,12 @@
 // ** Reactstrap Imports
 import { Row, Col, Card, CardHeader, CardBody, CardTitle, Input, Label, Button } from 'reactstrap'
 
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+const MySwal = withReactContent(Swal);
 // ** Icons Imports
-import { Check, X, Link } from 'react-feather'
-
+import { CheckSquare as Check, Send, Link as LinkIcon } from 'react-feather'
+import { Link } from 'react-router-dom';
 const connectedAccounts = [
   {
     checked: true,
@@ -14,7 +17,19 @@ const connectedAccounts = [
 
 ]
 
-const ConnectionsTabContent = () => {
+const ConnectionsTabContent = ({ userData }) => {
+  // const handleError = (message) => {
+  //   return MySwal.fire({
+  //     title: 'Error!',
+  //     text: message,
+  //     icon: 'error',
+  //     customClass: {
+  //       confirmButton: 'btn btn-primary'
+  //     },
+  //     buttonsStyling: false
+  //   })
+  // }
+
   return (
     <Row>
       <Col md='6'>
@@ -37,15 +52,11 @@ const ConnectionsTabContent = () => {
                     </div>
                     <div className='mt-50 mt-sm-0'>
                       <div className='form-switch'>
-                        <Input type='switch' defaultChecked={item.checked} id={`account-${item.title}`} />
-                        <Label className='form-check-label' for={`account-${item.title}`}>
-                          <span className='switch-icon-left'>
-                            <Check size={14} />
-                          </span>
-                          <span className='switch-icon-right'>
-                            <X size={14} />
-                          </span>
-                        </Label>
+                        {userData.isActive ? <Check size={20} /> : <Link to={`/verify-email?email=${userData.email}`}><Button outline className='btn-icon'>
+                          <LinkIcon className='font-medium-3' />
+                        </Button></Link>}
+
+
                       </div>
                     </div>
                   </div>

@@ -1,5 +1,5 @@
 import { useSkin } from '@hooks/useSkin'
-import { Link, useHistory } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import axios from "axios"
 
 //import { useNavigate } from "react-router-dom"
@@ -11,6 +11,7 @@ const MySwal = withReactContent(Swal);
 
 import '@styles/react/pages/page-authentication.scss'
 import { useForm, Controller } from 'react-hook-form'
+import getUserInfo from './UserInfo'
 const API_DOMAIN = process.env.REACT_APP_API_DOMAIN;
 const defaultValues = {
   password: '',
@@ -31,7 +32,7 @@ const LoginCover = () => {
     })
   }
   const { skin } = useSkin()
-  const history = useHistory()
+
   const {
     control,
     //setError,
@@ -44,12 +45,15 @@ const LoginCover = () => {
         email: values.email,
         password: values.password
       }, { withCredentials: true })
-      .then(() => {
-        history.push('/getinfo')
+      .then(async () => {
+        await getUserInfo();
+        window.location.href = "http://localhost:3000/home"
       })
       .catch((error) => {
+        console.log(error);
         console.error(error.response)
-        handleError(error.response.data.msg);
+        handleError([]);
+        //handleError(error.response.data.msg);
       })
 
   }
@@ -150,7 +154,7 @@ const LoginCover = () => {
                   <Label className='form-label' for='login-password'>
                     Password
                   </Label>
-                  <Link to='/pages/forgot-password-cover'>
+                  <Link to='/'>
                     <small>Forgot Password?</small>
                   </Link>
                 </div>

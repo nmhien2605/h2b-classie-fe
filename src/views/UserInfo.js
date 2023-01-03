@@ -1,33 +1,17 @@
-import { useHistory } from "react-router-dom"
-import { React } from "react"
+
 import axios from "axios"
 // import { handleLogin } from "../redux/authentication"
 
 const API_DOMAIN = process.env.REACT_APP_API_DOMAIN;
-const UserInfo = () => {
-    const history = useHistory()
+const getUserInfo = async () => {
+    try {
+        const { data } = await axios.get(`${API_DOMAIN}/user-info`, { withCredentials: true })
+        const userInfo = { ...data.user }
+        console.log(userInfo);
+        localStorage.setItem("user", JSON.stringify(userInfo));
+    } catch (error) {
+        console.log(error);
+    }
 
-    axios
-        .get(`${API_DOMAIN}/user-info`, { withCredentials: true })
-        .then((res) => {
-            const userInfo = { ...res.data.user }
-            localStorage.setItem("user", JSON.stringify(userInfo))
-            // ví du lay data khỏi localstorage
-            // const temp = localStorage.getItem('user');
-            // const user = JSON.parse(temp)
-            // console.log(typeof user);
-            // handleLogin(userInfo)
-            window.location.href = "/home"
-        })
-        .catch((error) => {
-            history.push('/login')
-            // alert tài khoản lỗi ... đăng nhập / đăng ký lại
-            console.error(error)
-        })
-    return (
-        <div>
-
-        </div>
-    )
 }
-export default UserInfo
+export default getUserInfo

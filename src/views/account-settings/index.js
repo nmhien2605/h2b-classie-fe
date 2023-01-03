@@ -20,8 +20,8 @@ import '@styles/react/pages/page-account-settings.scss'
 const AccountSettings = () => {
   // ** States
   const [activeTab, setActiveTab] = useState('1');
-  const [data, setData] = useState(null)
-
+  const [data, setData] = useState(null);
+  const [userData, setUserData] = useState(null);
   const fakeData = {
     general: {
       avatar: "/static/media/avatar-s-11.1d46cc62.jpg",
@@ -75,6 +75,11 @@ const AccountSettings = () => {
 
   useEffect(() => {
     setData(fakeData)
+    const user = JSON.parse(localStorage.getItem('user'))
+    if (user) {
+      setUserData(user);
+      console.log(user);
+    }
   }, [])
 
   return (
@@ -87,13 +92,13 @@ const AccountSettings = () => {
 
             <TabContent activeTab={activeTab}>
               <TabPane tabId='1'>
-                <AccountTabContent data={data.general} />
+                <AccountTabContent data={data.general} userData={userData} />
               </TabPane>
               <TabPane tabId='2'>
                 <SecurityTabContent />
               </TabPane>
               <TabPane tabId='3'>
-                <ConnectionsTabContent />
+                <ConnectionsTabContent userData={userData} />
               </TabPane>
             </TabContent>
           </Col>

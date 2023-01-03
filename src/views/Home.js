@@ -16,6 +16,7 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { Info } from "react-feather";
 import { Link } from "react-router-dom";
+import getUserInfo from "./UserInfo";
 
 const MySwal = withReactContent(Swal);
 
@@ -26,7 +27,6 @@ const dateTime = (dateStr) => {
 
 const Home = () => {
   const [groups, setGroups] = useState([]);
-
   const loadGroups = async () => {
     const { data } = await axios.get(
       `${process.env.REACT_APP_API_DOMAIN}/groups`,
@@ -68,8 +68,8 @@ const Home = () => {
       loadGroups();
     }
   };
-
   useEffect(() => {
+    getUserInfo();
     loadGroups();
   }, []);
 

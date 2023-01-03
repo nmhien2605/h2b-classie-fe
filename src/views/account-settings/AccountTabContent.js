@@ -10,11 +10,10 @@ import 'cleave.js/dist/addons/cleave-phone.us'
 // ** Reactstrap Imports
 import { Row, Col, Form, Card, Input, Label, Button, CardBody, CardTitle, CardHeader, FormFeedback } from 'reactstrap'
 
-const AccountTabs = ({ data }) => {
+const AccountTabs = ({ userData }) => {
   // ** Hooks
   const defaultValues = {
-    lastName: '',
-    firstName: data.fullName.split(' ')[0]
+    name: userData.name,
   }
   const {
     control,
@@ -24,7 +23,7 @@ const AccountTabs = ({ data }) => {
   } = useForm({ defaultValues })
 
   // ** States
-  const [avatar, setAvatar] = useState(data.avatar ? data.avatar : '')
+  const [avatar, setAvatar] = useState(userData.avatarUrl ? userData.avatarUrl : '')
 
   const onChange = e => {
     const reader = new FileReader(),
@@ -87,7 +86,7 @@ const AccountTabs = ({ data }) => {
                   name='firstName'
                   control={control}
                   render={({ field }) => (
-                    <Input id='firstName' placeholder='John' invalid={errors.firstName && true} {...field} />
+                    <Input id='firstName' defaultValue={userData.name} invalid={errors.name && true} {...field} />
                   )}
                 />
                 {errors && errors.firstName && <FormFeedback>Please enter a valid First Name</FormFeedback>}
@@ -97,7 +96,7 @@ const AccountTabs = ({ data }) => {
                 <Label className='form-label' for='emailInput'>
                   E-mail
                 </Label>
-                <Input id='emailInput' type='email' name='email' placeholder='Email' defaultValue={data.email} />
+                <Input id='emailInput' type='email' name='email' placeholder='Email' defaultValue={userData.email} />
               </Col>
 
               <Col sm='6' className='mb-1'>

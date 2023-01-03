@@ -25,6 +25,21 @@ const Routes = [
     component: lazy(() => import('../../views/account-settings'))
   },
   {
+    path: '/verify-email',
+    component: lazy(() => import('../../views/VerifyEmailBasic')),
+    layout: 'BlankLayout',
+  },
+  {
+    path: '/verify/:id',
+    component: lazy(() => import('../../views/Success')),
+    layout: 'BlankLayout',
+  },
+  {
+    path: '/forgot-password',
+    component: lazy(() => import('../../views/ResetPasswordBasic')),
+    layout: 'BlankLayout',
+  },
+  {
     path: '/my-slides',
     component: lazy(() => import('../../views/slides'))
   },

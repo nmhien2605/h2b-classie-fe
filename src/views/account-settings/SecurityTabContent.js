@@ -32,15 +32,15 @@ const SecurityTabContent = () => {
   const SignupSchema = yup.object().shape({
     currentPassword: yup
       .string()
-      .min(8, obj => showErrors('Current Password', obj.value.length, obj.min))
+      .min(1, obj => showErrors('Current Password', obj.value.length, obj.min))
       .required(),
     newPassword: yup
       .string()
-      .min(8, obj => showErrors('New Password', obj.value.length, obj.min))
+      .min(1, obj => showErrors('New Password', obj.value.length, obj.min))
       .required(),
     retypeNewPassword: yup
       .string()
-      .min(8, obj => showErrors('Retype New Password', obj.value.length, obj.min))
+      .min(1, obj => showErrors('Retype New Password', obj.value.length, obj.min))
       .required()
       .oneOf([yup.ref(`newPassword`), null], 'Passwords must match')
   })

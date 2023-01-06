@@ -35,9 +35,12 @@ const Routes = [
     layout: 'BlankLayout',
   },
   {
-    path: '/forgot-password',
+    path: '/reset-password/:id',
     component: lazy(() => import('../../views/ResetPasswordBasic')),
     layout: 'BlankLayout',
+    meta: {
+      authRoute: true
+    }
   },
   {
     path: '/my-slides',

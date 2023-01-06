@@ -19,7 +19,17 @@ const defaultValues = {
 }
 //import { handleLogin } from '@store/authentication'
 const LoginCover = () => {
-
+  const handleSuccess = (message) => {
+    return MySwal.fire({
+      title: 'Done!',
+      text: message,
+      icon: 'success',
+      customClass: {
+        confirmButton: 'btn btn-primary'
+      },
+      buttonsStyling: false
+    })
+  }
   const handleError = (message) => {
     return MySwal.fire({
       title: 'Error!',
@@ -51,10 +61,29 @@ const LoginCover = () => {
       })
       .catch((error) => {
         console.log(error);
-        console.error(error.response)
-        handleError([]);
-        //handleError(error.response.data.msg);
+        console.error(error.response);
+        handleError(error.response.data.message);
       })
+  }
+  const handleForgotPassword = values => {
+
+    console.log(values.email);
+    if (values.email === "") {
+      handleError("Vui lòng nhập email trước");
+    } else {
+      axios.post(`${API_DOMAIN}/forgot-password`, {
+        email: values.email,
+      }, { withCredentials: true })
+        .then((res) => {
+          console.log(res);
+          handleSuccess(res.data.message)
+        })
+        .catch((error) => {
+          console.log(error);
+          console.error(error.response);
+          handleError(error.response.data.message);
+        })
+    }
 
   }
   const loginGoogle = () => {
@@ -154,9 +183,9 @@ const LoginCover = () => {
                   <Label className='form-label' for='login-password'>
                     Password
                   </Label>
-                  <Link to='/'>
+                  <a className='text-primary' onClick={handleSubmit(handleForgotPassword)}>
                     <small>Forgot Password?</small>
-                  </Link>
+                  </a>
                 </div>
                 <Controller
                   id='password'
@@ -196,7 +225,7 @@ const LoginCover = () => {
           </Col>
         </Col>
       </Row>
-    </div>
+    </div >
   )
 }
 

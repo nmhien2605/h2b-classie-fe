@@ -1,5 +1,5 @@
 // ** React Imports
-import { Link, useHistory } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 // import { useState, useEffect } from 'react'
 // import axios from 'axios'
 // ** Custom Components
@@ -23,7 +23,7 @@ const API_DOMAIN = process.env.REACT_APP_API_DOMAIN;
 const UserDropdown = () => {
   // ** State
   const [userData, setUserData] = useState(null)
-  const history = useHistory();
+  // const history = useHistory();
   //** ComponentDidMount
 
 
@@ -31,7 +31,7 @@ const UserDropdown = () => {
   const userAvatar = (userData && userData.avatarUrl) || defaultAvatar
   const handleLogout = () => {
     localStorage.clear();
-    history.push("/login");
+    window.location.href = "/login";
     //   axios
     // .post(`${API_DOMAIN}/logout`, {
     // }, { withCredentials: true })

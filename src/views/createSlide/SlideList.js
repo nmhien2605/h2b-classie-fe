@@ -2,12 +2,17 @@
 import { Button, Card, CardBody, CardHeader } from "reactstrap";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import { BarChart } from "react-feather";
+import { BsCardHeading, BsTextParagraph } from "react-icons/bs";
 import { SLIDE_TYPE } from "../../constants/slide";
 
 const getIcon = (slideType) => {
   switch (slideType) {
     case SLIDE_TYPE.MUL_CHOICES:
       return <BarChart />;
+    case SLIDE_TYPE.HEADING:
+      return <BsCardHeading size={22} />;
+    case SLIDE_TYPE.PARAGRAPH:
+      return <BsTextParagraph size={22} />;
     default:
       return <BarChart />;
   }
@@ -44,7 +49,9 @@ const SlideList = ({ data, current, setCurrent, handleAddNewSlide }) => {
                 <CardHeader>
                   {idx + 1} {getIcon(slide.detail.type)}
                 </CardHeader>
-                <CardBody>{slide.detail.title}</CardBody>
+                <CardBody>
+                  <p className="text-truncate m-0">{slide.detail.title}</p>
+                </CardBody>
               </Card>
             );
           })}

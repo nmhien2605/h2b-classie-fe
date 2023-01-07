@@ -1,4 +1,5 @@
 // ** React Imports
+/*eslint-disable */
 import { Link, useHistory } from 'react-router-dom'
 // import { useState, useEffect } from 'react'
 // import axios from 'axios'
@@ -31,7 +32,8 @@ const UserDropdown = () => {
   const userAvatar = (userData && userData.avatarUrl) || defaultAvatar
   const handleLogout = () => {
     localStorage.clear();
-    history.push("/login");
+    window.location.href = '/login'
+    // history.push("/login");
     //   axios
     // .post(`${API_DOMAIN}/logout`, {
     // }, { withCredentials: true })

@@ -1,5 +1,5 @@
 // ** React Imports
-import { useEffect, Fragment } from "react";
+import { useEffect, Fragment, useState, useRef } from "react";
 
 // ** Table Columns
 import { columns } from "./columns";
@@ -33,6 +33,8 @@ import "@styles/react/libs/tables/react-dataTable-component.scss";
 
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import axios from "axios";
+import { useHistory } from "react-router-dom";
 const MySwal = withReactContent(Swal);
 
 const CustomHeader = ({ addMember }) => {
@@ -40,7 +42,7 @@ const CustomHeader = ({ addMember }) => {
     <Row className="text-nowrap w-100 my-75 g-0 permission-header">
       <Col xs={12} lg={4} className="d-flex align-items-center">
         <div className="d-flex align-items-center justify-content-center justify-content-lg-start">
-          <label htmlFor="rows-per-page">Group name</label>
+          <label htmlFor="rows-per-page">Group detail</label>
         </div>
       </Col>
       <Col xs={12} lg={8}>
@@ -48,7 +50,7 @@ const CustomHeader = ({ addMember }) => {
           <Button
             className="add-permission mt-sm-0 mt-1"
             color="primary"
-            onClick={addMember()}
+            onClick={addMember}
           >
             Add Member
           </Button>
@@ -58,33 +60,12 @@ const CustomHeader = ({ addMember }) => {
   );
 };
 
-const fakeData = [
-  {
-    id: 1,
-    name: "Hao Tran",
-    role: "Owner",
-    createdDate: "14 Apr 2021, 8:43 PM",
-  },
-  {
-    id: 2,
-    role: "Student",
-    name: "Hien Nguyen",
-    createdDate: "16 Sep 2021, 5:20 PM",
-  },
-  {
-    id: 3,
-    name: "Le Bach",
-    createdDate: "14 Oct 2021, 10:20 AM",
-    role: "Student",
-  },
-];
+const Table = ({ groupData }) => {
+  const searchParams = new URLSearchParams(document.location.search);
+  const history = useHistory();
+  const [canEdit, setCanEdit] = useState(false);
 
-const Table = () => {
   // ** Store Vars & Hooks
-
-  const addMember = () => {
-    console.log("add member here:");
-  };
   const currentPage = 1;
   const rowsPerPage = 10;
 
@@ -121,15 +102,41 @@ const Table = () => {
     );
   };
 
-  // ** Table data to render
+  const addMember = async () => {
+    const { value, isDismissed } = await MySwal.fire({
+      title: `Add new member`,
+      input: "text",
+      inputPlaceholder: "Enter their email address",
+      padding: "30px",
+      width: "500px",
+      inputValue: "",
+      showCancelButton: true,
+      customClass: {
+        confirmButton: "btn btn-primary",
+        cancelButton: "btn btn-danger ms-1",
+      },
+    });
+
+    if (isDismissed) return;
+
+    const groupId = searchParams.get("id");
+
+    const data = await axios.post(
+      `${process.env.REACT_APP_API_DOMAIN}/groups/invite`,
+      { groupId, emails: [value] },
+      {
+        withCredentials: true,
+      }
+    );
+    history.go(0);
+  };
 
   const handleEditClick = async (row) => {
-    const { value } = await MySwal.fire({
+    const { value, isDismissed } = await MySwal.fire({
       title: `Which role would you like to set for ${row.name}?`,
       input: "select",
       inputOptions: {
-        owner: "Owner",
-        coowner: "Co-owner",
+        "co-owner": "Co-owner",
         member: "Regular member",
       },
       padding: "30px",
@@ -142,13 +149,28 @@ const Table = () => {
       },
     });
 
+    if (isDismissed) return;
+
     // goi api update quyen user o day
-    console.log({ value });
+
+    const groupId = searchParams.get("id");
+
+    const data = await axios.put(
+      `${process.env.REACT_APP_API_DOMAIN}/groups/${groupId}/update-member/${row.detail._id}`,
+      { role: value },
+      {
+        withCredentials: true,
+      }
+    );
+
+    history.go(0);
   };
 
   const onDelete = async (row) => {
+    console.log({ row });
+
     const result = await MySwal.fire({
-      title: `Are you sure to delete ${row.name}?`,
+      title: `Are you sure to delete ${row.detail.name}?`,
       text: "You won't be able to revert this!",
       icon: "warning",
       showCancelButton: true,
@@ -161,11 +183,20 @@ const Table = () => {
     });
 
     if (result.value) {
+      const groupId = searchParams.get("id");
+
       // Goi api xoa user o day
+      const data = await axios.delete(
+        `${process.env.REACT_APP_API_DOMAIN}/groups/${groupId}/remove-member/${row.detail._id}`,
+        {
+          withCredentials: true,
+        }
+      );
+      history.go(0);
     } else if (result.dismiss === MySwal.DismissReason.cancel) {
       MySwal.fire({
         title: "Cancelled",
-        text: "Your presentation is safe :)",
+        text: "Your member is still in this group :)",
         icon: "error",
         customClass: {
           confirmButton: "btn btn-success",
@@ -203,6 +234,16 @@ const Table = () => {
     },
   ];
 
+  useEffect(() => {
+    const userDetail = JSON.parse(localStorage.getItem("user"));
+
+    const user = groupData?.members?.find(
+      (member) => member.detail._id === userDetail._id
+    );
+
+    setCanEdit(user?.role === "owner" || user?.role === "co-owner");
+  }, [groupData]);
+
   return (
     <Fragment>
       <div className="react-dataTable">
@@ -212,11 +253,11 @@ const Table = () => {
           subHeader
           responsive
           paginationServer
-          columns={updatedColumns}
+          columns={canEdit ? updatedColumns : columns}
           sortIcon={<ChevronDown />}
           className="react-dataTable"
           paginationComponent={CustomPagination}
-          data={fakeData}
+          data={groupData.members}
           subHeaderComponent={<CustomHeader addMember={addMember} />}
         />
       </div>

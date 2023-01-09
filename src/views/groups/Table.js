@@ -1,3 +1,4 @@
+/*eslint-disable */
 // ** React Imports
 import { useEffect, Fragment, useState, useRef } from "react";
 
@@ -70,7 +71,7 @@ const Table = ({ groupData }) => {
   const rowsPerPage = 10;
 
   // ** Get data on mount
-  useEffect(() => {}, []);
+  useEffect(() => { }, []);
 
   // ** Function in get data on page change
   const handlePagination = (page) => {

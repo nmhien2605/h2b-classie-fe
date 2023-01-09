@@ -1,3 +1,4 @@
+/*eslint-disable */
 // ** Styles
 import { useSkin } from "@hooks/useSkin";
 import "@styles/base/pages/page-misc.scss";

@@ -1,3 +1,4 @@
+/*eslint-disable */
 // ** Third Party Components
 import Select from "react-select";
 

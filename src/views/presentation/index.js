@@ -58,6 +58,7 @@ const Presentation = () => {
   useEffect(() => {
     if (socketData.event === "host-room") {
       if (socketData.data.success) {
+        setCurrent(socketData.data.current);
         setLoading(false);
       }
     } else if (socketData.event === "next-slide") {
@@ -69,7 +70,7 @@ const Presentation = () => {
 
   const handleClosePresent = () => {
     axios
-      .put(`${API_DOMAIN}/presentations/disable/${id}`, {
+      .put(`${API_DOMAIN}/presentations/disable/${id}`, {}, {
         withCredentials: true,
       })
       .then((res) => {

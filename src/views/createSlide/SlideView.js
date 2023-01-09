@@ -1,9 +1,11 @@
 // ** Styles
 import { useSkin } from "@hooks/useSkin";
 import "@styles/base/pages/page-misc.scss";
+
 import { Card, CardBody, CardHeader, CardTitle } from "reactstrap";
 import ChartjsBarChart from "../../components/chart-js/ChartjsBarChart";
 import { SLIDE_TYPE } from "../../constants/slide";
+
 
 // const data = {
 //   code: "",
@@ -26,6 +28,7 @@ const SlideView = ({ title, chartData }) => {
   const labelColor = skin === "dark" ? "#b4b7bd" : "#6e6b7b";
 
   return (
+
     <Card style={{ border: "1px solid black", marginBottom: 0 }}>
       <CardHeader className="justify-content-center">
         <CardTitle tag={"h2"}>{title}</CardTitle>
@@ -36,7 +39,7 @@ const SlideView = ({ title, chartData }) => {
           labelColor={labelColor}
           gridLineColor={"rgba(200, 200, 200, 0.2)"}
           chartData={chartData}
-          // setValues={setValues}
+        // setValues={setValues}
         />
       </CardBody>
     </Card>

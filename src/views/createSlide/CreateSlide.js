@@ -5,7 +5,7 @@ import Select from "react-select";
 import "@styles/base/pages/page-misc.scss";
 import { selectThemeColors } from "@utils";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import {
@@ -27,6 +27,8 @@ import SlideOptions from "./SlideOptions";
 import SlideView from "./SlideView";
 // import postJson from "../../utility/api/postJson";
 
+import { SocketContext } from "../../utility/Socket";
+
 const sldieTypeOptions = [
   { value: SLIDE_TYPE.MUL_CHOICES, label: "Multiple choices" },
 ];
@@ -46,12 +48,16 @@ const emptyData = {
 };
 
 const CreateSlide = () => {
+  const searchParams = new URLSearchParams(document.location.search);
+  const socketData = useContext(SocketContext); 
+  const [id, setId] = useState(searchParams.get("id"));
   const [isCreated, setIsCreated] = useState(false);
   const [current, setCurrent] = useState(0);
   const [data, setData] = useState({ ...emptyData });
   const [currentSlide, setCurrentSlide] = useState(data.slides[current]);
+  const [code, setCode] = useState("");
+  const [isPresent, setPresent] = useState(false);
 
-  const searchParams = new URLSearchParams(document.location.search);
   const history = useHistory();
 
   useEffect(() => {
@@ -67,7 +73,6 @@ const CreateSlide = () => {
   }, [currentSlide]);
 
   useEffect(async () => {
-    const id = searchParams.get("id");
     if (id) {
       const { data } = await axios.get(
         `${process.env.REACT_APP_API_DOMAIN}/presentations/${id}`,
@@ -75,9 +80,24 @@ const CreateSlide = () => {
       );
       setIsCreated(true);
       setData({ ...data.data });
+      setCode(data.data.code);
+      setPresent(data.data.isPresent);
       setCurrentSlide({ ...data.data.slides[0] });
     }
   }, []);
+
+  useEffect(() => {
+    if (socketData.event === "start-present") {
+      if (socketData.data.code === code) {
+        setPresent(true);
+      }
+    }
+    if (socketData.event === "end-present") {
+      if (socketData.data.code === code) {
+        setPresent(false);
+      }
+    }
+  }, [socketData]);
 
   const handleAddNewSlide = (slideType = SLIDE_TYPE.MUL_CHOICES) => {
     const newSlide = {
@@ -119,6 +139,7 @@ const CreateSlide = () => {
       { withCredentials: true }
     );
     // console.log({ res });
+    setId(data.data._id);
     setIsCreated(true);
     setData({ ...data.data });
     setCurrentSlide({ ...data.data.slides[0] });
@@ -147,9 +168,9 @@ const CreateSlide = () => {
   };
 
   const handlePresent = () => {
-    const id = searchParams.get("id");
     history.push(`/view-slide?id=${id}`);
   };
+
   return (
     <>
       {!isCreated ? (
@@ -205,7 +226,7 @@ const CreateSlide = () => {
             <Card>
               <Button onClick={handlePresent} color="success">
                 <Play size={14} />
-                Present
+                {isPresent ? "Presenting" : "Present"}
               </Button>
             </Card>
             <Card>

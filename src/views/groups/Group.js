@@ -2,22 +2,14 @@
 import axios from "axios";
 import { Fragment, useEffect, useState } from "react";
 import CopyToClipboard from "react-copy-to-clipboard";
-import PerfectScrollbar from "react-perfect-scrollbar";
-import { Link } from "react-router-dom";
-import { Airplay } from "react-feather";
 import {
-  Badge,
   Button,
   Card,
-  CardBody,
-  CardHeader,
-  CardTitle,
   Col,
   Row,
 } from "reactstrap";
 import Table from "./Table";
-
-// ** Table Import
+import GroupPresentation from "./GroupPresentation";
 
 const Group = () => {
   const searchParams = new URLSearchParams(document.location.search);
@@ -26,6 +18,7 @@ const Group = () => {
   const [inviteUrl, setInviteUrl] = useState("");
 
   useEffect(async () => {
+    console.log("first")
     const groupId = searchParams.get("id");
     if (groupId) {
       const { data } = await axios.get(
@@ -82,60 +75,7 @@ const Group = () => {
           <Table />
         </div>
       </Card>
-      <Card>
-        <CardHeader>
-          <CardTitle tag="h4">
-            Here are the list of your presentations
-          </CardTitle>
-        </CardHeader>
-        <PerfectScrollbar style={{ height: "calc(100vh - 250px)" }}>
-          <CardBody>
-            <Row className="gy-2">
-              {presentationData.length > 0 &&
-                presentationData.map((presentation) => {
-                  return (
-                    <Col key={presentation._id} sm={12}>
-                      <div className="bg-light-secondary position-relative rounded p-2">
-                        {presentation.isPresent && (
-                          <Row className="btn-pinned align-items-center">
-                            <Col>
-                              <Link
-                                to={`/vote-slide?code=${presentation.code}`}
-                              >
-                                <Airplay size={14} className="me-50" />
-                                <span>Join</span>
-                              </Link>
-                            </Col>
-                          </Row>
-                        )}
-                        <div className="d-flex align-items-center flex-wrap">
-                          <h4 className="mb-1 me-1">{presentation.name}</h4>
-                          <Badge className="mb-1" color="light-primary">
-                            {presentation.isPublic ? "Public" : "Groups only"}
-                          </Badge>
-                          {presentation.isPresent && (
-                            <Badge className="mb-1 ms-1" color="light-success">
-                              Presenting
-                            </Badge>
-                          )}
-                        </div>
-                        <span>
-                          Create on{" "}
-                          {new Date(
-                            presentation.createdAt
-                          ).toLocaleDateString()}{" "}
-                          {new Date(
-                            presentation.createdAt
-                          ).toLocaleTimeString()}
-                        </span>
-                      </div>
-                    </Col>
-                  );
-                })}
-            </Row>
-          </CardBody>
-        </PerfectScrollbar>
-      </Card>
+      <GroupPresentation group={searchParams.get("id")} presentationData={presentationData} />
     </Fragment>
   );
 };

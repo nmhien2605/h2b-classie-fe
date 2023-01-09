@@ -83,7 +83,7 @@ const Table = () => {
   // ** Store Vars & Hooks
 
   const addMember = () => {
-    console.log("add member here:");
+    // console.log("add member here:");
   };
   const currentPage = 1;
   const rowsPerPage = 10;

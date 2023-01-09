@@ -15,7 +15,7 @@ const QuestionTab = () => {
                 <CardTitle tag='h4'></CardTitle>
                 <MoreVertical size={18} className='cursor-pointer' />
             </CardHeader>
-            <CardBody>{renderMsg()}</CardBody>
+            <CardBody></CardBody>
         </Card>
 
 

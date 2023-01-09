@@ -1,3 +1,4 @@
+/*eslint-disable */
 // ** Third Party Components
 import Select from "react-select";
 
@@ -13,7 +14,9 @@ import {
   Card,
   CardBody,
   CardHeader,
+  CardTitle,
   Col,
+  Form,
   Input,
   Label,
   Row,
@@ -25,10 +28,13 @@ import { buildData } from "../../utility/chartData/barChartData";
 import SlideList from "./SlideList";
 import SlideOptions from "./SlideOptions";
 import SlideView from "./SlideView";
+import ParagraphView from "./ParagraphView";
 // import postJson from "../../utility/api/postJson";
 
 const sldieTypeOptions = [
   { value: SLIDE_TYPE.MUL_CHOICES, label: "Multiple choices" },
+  { value: SLIDE_TYPE.PARAGRAPH, label: "Paragraph" },
+  { value: SLIDE_TYPE.HEADING, label: "Heading" },
 ];
 
 const emptyData = {
@@ -36,6 +42,7 @@ const emptyData = {
     {
       detail: {
         title: "Cau hoi",
+        text: "",
         type: SLIDE_TYPE.MUL_CHOICES,
         options: [],
         values: [],
@@ -109,6 +116,18 @@ const CreateSlide = () => {
   const updateSlideTitle = (value) => {
     const newData = { ...currentSlide };
     newData.detail.title = value;
+    setCurrentSlide({ ...newData });
+  };
+
+  const updateSlideText = (value) => {
+    const newData = { ...currentSlide };
+    newData.detail.text = value;
+    setCurrentSlide({ ...newData });
+  };
+
+  const updateSlideType = (value) => {
+    const newData = { ...currentSlide };
+    newData.detail.type = value;
     setCurrentSlide({ ...newData });
   };
 
@@ -191,13 +210,21 @@ const CreateSlide = () => {
                 </Row>
               </CardHeader>
               <CardBody>
-                <SlideView
-                  title={currentSlide?.detail?.title}
-                  chartData={buildData(
-                    currentSlide?.detail?.options,
-                    currentSlide?.detail?.values
-                  )}
-                />
+                {currentSlide?.detail.type === SLIDE_TYPE.MUL_CHOICES ? (
+                  <SlideView
+                    title={currentSlide?.detail?.title}
+                    chartData={buildData(
+                      currentSlide?.detail?.options,
+                      currentSlide?.detail?.values
+                    )}
+                  />
+                ) : (
+                  <ParagraphView
+                    type={currentSlide?.detail.type}
+                    title={currentSlide?.detail?.title}
+                    text={currentSlide?.detail?.text}
+                  />
+                )}
               </CardBody>
             </Card>
           </Col>
@@ -216,18 +243,76 @@ const CreateSlide = () => {
                     theme={selectThemeColors}
                     className="react-select"
                     classNamePrefix="select"
-                    defaultValue={sldieTypeOptions[0]}
+                    value={{
+                      value: currentSlide.detail.type,
+                      label: sldieTypeOptions.find(
+                        (item) => item.value === currentSlide.detail.type
+                      )?.label,
+                    }}
                     options={sldieTypeOptions}
                     isClearable={false}
+                    onChange={(event) => {
+                      updateSlideType(event.value);
+                    }}
                   />
                 </div>
               </CardBody>
-              <SlideOptions
-                title={currentSlide?.detail?.title}
-                setTitle={updateSlideTitle}
-                options={currentSlide?.detail?.options}
-                setOptions={updateSlideOptions}
-              />
+
+              {currentSlide?.detail.type !== SLIDE_TYPE.MUL_CHOICES ? (
+                <Card style={{ padding: 0, marginBottom: 0 }}>
+                  <CardHeader>
+                    <CardTitle tag="h4">Slide content</CardTitle>
+                  </CardHeader>
+                  <CardBody>
+                    <Form>
+                      <Row>
+                        <Col sm="12" className="mb-1">
+                          <Label className="form-label" for="headingField">
+                            Your Heading:
+                          </Label>
+                          <Input
+                            type="text"
+                            id="headingField"
+                            value={currentSlide?.detail?.title}
+                            onChange={(event) => {
+                              return updateSlideTitle(event.target.value);
+                            }}
+                            placeholder="Input your heading here"
+                          />
+                        </Col>
+                        <Col sm="12" className="mb-1">
+                          <Label className="form-label" for="subHeadingField">
+                            {currentSlide?.detail.type === SLIDE_TYPE.HEADING
+                              ? "Your sub-heading:"
+                              : "Your paragraph"}
+                          </Label>
+                          <Input
+                            type="textarea"
+                            id="subHeadingField"
+                            value={currentSlide?.detail?.text}
+                            onChange={(event) => {
+                              console.log({ value: event.target.value });
+                              return updateSlideText(event.target.value);
+                            }}
+                            placeholder={
+                              currentSlide?.detail.type === SLIDE_TYPE.HEADING
+                                ? "Input your sub-heading"
+                                : "Input your paragraph"
+                            }
+                          />
+                        </Col>
+                      </Row>
+                    </Form>
+                  </CardBody>
+                </Card>
+              ) : (
+                <SlideOptions
+                  title={currentSlide?.detail?.title}
+                  setTitle={updateSlideTitle}
+                  options={currentSlide?.detail?.options}
+                  setOptions={updateSlideOptions}
+                />
+              )}
             </Card>
           </Col>
         </Row>

@@ -26,12 +26,13 @@ import withReactContent from "sweetalert2-react-content";
 const MySwal = withReactContent(Swal);
 
 const PresentationView = () => {
+  const query = new URLSearchParams(document.location.search);
   const socketData = useContext(SocketContext);
   const [slides, setSlides] = useState([
     { detail: { options: [], values: [] } },
   ]);
   const [current, setCurrent] = useState(0);
-  const [code, setCode] = useState("");
+  const [code, setCode] = useState(query.get("code") ? query.get("code") : "");
   const [isJoined, setJoined] = useState(false);
   const [isVoted, setVoted] = useState(false);
   // const history = useHistory();
@@ -62,6 +63,12 @@ const PresentationView = () => {
       setSlides(socketData.data.slides);
     }
   }, [socketData]);
+
+  useEffect(() => {
+    if (query.get("code")) {
+      joinRoom(code);
+    }
+  }, [])
 
   const handleJoin = () => {
     joinRoom(code);
@@ -101,7 +108,7 @@ const PresentationView = () => {
             <>
               {/* if slide type = multi choice */}
               <SlideView
-                title={`Go to www.h2b.com and use the code ${code}`}
+                extraTitle={`Go to www.h2b.com and use the code ${code}`}
                 chartData={buildData(
                   slides[current].detail.options,
                   slides[current].detail.values

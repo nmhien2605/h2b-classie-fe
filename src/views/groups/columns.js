@@ -10,15 +10,15 @@ import { Badge } from 'reactstrap'
 // ** Vars
 const renderRole = row => {
   const roleObj = {
-    Student: {
+    member: {
       class: 'text-primary',
       icon: User
     },
-    Owner: {
+    'co-owner': {
       class: 'text-info',
       icon: Edit2
     },
-    Author: {
+    owner: {
       class: 'text-warning',
       icon: Settings
     },
@@ -35,27 +35,33 @@ const renderRole = row => {
 
 export const columns = [
   {
-    name: 'Name',
+    name: "Name",
     sortable: true,
-    minWidth: '350px',
-    cell: ({ name }) => name,
-    selector: row => row.name
+    minWidth: "350px",
+    cell: ({ detail }) => detail.name,
+    selector: (row) => row.detail.name,
   },
   {
     sortable: true,
-    minWidth: '350px',
-    name: 'Role',
-    selector: row => row.role,
-    cell: row => renderRole(row)
+    minWidth: "350px",
+    name: "Email",
+    selector: (row) => row.detail.email,
+    cell: ({ detail }) => detail.email,
   },
   {
     sortable: true,
-    minWidth: '350px',
-    name: 'Created Date',
-    selector: row => row.createdDate,
-    cell: ({ createdDate }) => createdDate,
-    sortFunction: (rowA, rowB) => {
-      return new Date(rowB.createdDate) - new Date(rowA.createdDate)
-    }
-  }
-]
+    minWidth: "350px",
+    name: "Role",
+    selector: (row) => row.role,
+    cell: (row) => renderRole(row),
+  },
+  {
+    sortable: true,
+    minWidth: "350px",
+    name: "Status",
+    selector: (row) => row.status,
+    cell: ({ status }) => {
+      return status ? "Joined" : "Pending";
+    },
+  },
+];

@@ -108,7 +108,7 @@ const PresentationView = () => {
             <>
               {/* if slide type = multi choice */}
               <SlideView
-                title={`Go to www.h2b.com and use the code ${code}`}
+                extraTitle={`Go to www.h2b.com and use the code ${code}`}
                 chartData={buildData(
                   slides[current].detail.options,
                   slides[current].detail.values

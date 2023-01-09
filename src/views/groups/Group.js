@@ -72,7 +72,7 @@ const Group = () => {
       </Row>
       <Card>
         <div className="card-datatable app-user-list table-responsive">
-          <Table />
+          <Table groupData={groupData} />
         </div>
       </Card>
       <GroupPresentation group={searchParams.get("id")} presentationData={presentationData} />

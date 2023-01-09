@@ -3,12 +3,12 @@ import axios from "axios";
 
 // ** Styles
 import "@styles/base/pages/page-misc.scss";
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, Fragment } from "react";
 import { useHistory } from "react-router-dom";
 import { buildData } from "../../utility/chartData/barChartData";
 import SlideView from "../createSlide/SlideView";
-import { Button } from "reactstrap";
-
+import { Button, Col, Row } from "reactstrap";
+import ChatLog from "../chat";
 import { SocketContext, hostRoom, closeRoom, nextSlide } from "../../utility/Socket";
 
 const API_DOMAIN = process.env.REACT_APP_API_DOMAIN;
@@ -83,7 +83,7 @@ const Presentation = () => {
         console.error(error);
       });
   };
-
+  console.log(process.env.REACT_APP_DOMAIN);
   const handleNextSlide = () => {
     nextSlide(code);
   };
@@ -102,14 +102,24 @@ const Presentation = () => {
           </>
 
           {/* if slide type = multi choice */}
-          <SlideView
-            title={`Go to https://h2b-classie.vercel.app/vote-slide and use the code ${code}`}
-            chartData={buildData(
-              slides[current].detail.options,
-              slides[current].detail.values
-            )}
-            setCurrent={setCurrent}
-          />
+          <Row className='match-height'>
+            {/* content */}
+            <Col xs={9}>
+              <SlideView
+                title={`Go to ${process.env.REACT_APP_DOMAIN}/vote-slide and use the code ${code}`}
+                chartData={buildData(
+                  slides[current].detail.options,
+                  slides[current].detail.values
+                )}
+                setCurrent={setCurrent}
+              />
+            </Col>
+            <Col xs={3}>
+              {/* Fragment Chat */}
+              <ChatLog></ChatLog>
+            </Col>
+          </Row>
+
           {/* add button next and pre slide */}
         </>
       ) : null}

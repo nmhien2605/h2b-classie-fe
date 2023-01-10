@@ -1,40 +1,109 @@
-import { useState, createContext } from "react";
+import React, { Fragment, useEffect, useState, createContext } from "react";
+import { toast } from "react-toastify";
+import Avatar from "@components/avatar";
+import { Play, Pause } from "react-feather";
 import { io } from "socket.io-client";
 
 export const SocketContext = createContext();
 
 export const socket = io(process.env.REACT_APP_API_DOMAIN);
 
+const user = JSON.parse(localStorage.getItem("user"));
+
+const SuccessToast = ({ group, presentation }) => (
+  <Fragment>
+    <div className="toastify-header">
+      <div className="title-wrapper">
+        <Avatar size="sm" color="success" icon={<Play size={12} />} />
+        <h6 className="toast-title">{group} group</h6>
+      </div>
+    </div>
+    <div className="toastify-body">
+      <span role="img" aria-label="toast-text">
+        {presentation} is presenting
+      </span>
+    </div>
+  </Fragment>
+);
+
+const WarningToast = ({ group, presentation }) => (
+  <Fragment>
+    <div className="toastify-header">
+      <div className="title-wrapper">
+        <Avatar size="sm" color="warning" icon={<Pause size={12} />} />
+        <h6 className="toast-title">{group} group</h6>
+      </div>
+    </div>
+    <div className="toastify-body">
+      <span role="img" aria-label="toast-text">
+        {presentation} stop present
+      </span>
+    </div>
+  </Fragment>
+);
+
 export const useSocket = () => {
   const [socketData, setSocketData] = useState({ event: "", data: {} });
 
-  socket.on("connect", () => {
-    console.log("connected to server");
-  });
+  useEffect(() => {
+    socket.on("connect", () => {
+      console.log("connected to server");
+    });
 
-  socket.on("res-host-room", (data) => {
-    setSocketData({ event: "host-room", data });
-  });
+    socket.on("res-host-room", (data) => {
+      setSocketData({ event: "host-room", data });
+    });
 
-  socket.on("res-join-room", (data) => {
-    setSocketData({ event: "join-room", data });
-  });
+    socket.on("res-join-room", (data) => {
+      setSocketData({ event: "join-room", data });
+    });
 
-  socket.on('res-vote-room', (data) => {
-    setSocketData({ event: "update-slide", data });
-  })
+    socket.on("res-vote-room", (data) => {
+      setSocketData({ event: "update-slide", data });
+    });
 
-  socket.on('res-next-slide', (data) => {
-    setSocketData({ event: "next-slide", data });
-  })
+    socket.on("res-next-slide", (data) => {
+      setSocketData({ event: "next-slide", data });
+    });
 
-  socket.on("start-present", (data) => {
-    setSocketData({ event: "start-present", data });
-  })
+    socket.on("start-present", (data) => {
+      const checkNoti = data.groups.find((group) => {
+        const checkMember = group.members.find((member) => {
+          console.log(member, member.detail, user, user._id);
+          return member.detail === user._id;
+        })
+        if (checkMember) return true;
+        return false;
+      })
+      if (checkNoti) {
+        toast.success(<SuccessToast group={checkNoti.name} presentation={data.name} />, {
+          icon: false,
+          hideProgressBar: true,
+          autoClose: 5000,
+        });
+      }
+      setSocketData({ event: "start-present", data });
+    });
 
-  socket.on("end-present", (data) => {
-    setSocketData({ event: "end-present", data });
-  })
+    socket.on("end-present", (data) => {
+      const checkNoti = data.groups.find((group) => {
+        const checkMember = group.members.find((member) => {
+          console.log(member, member.detail, user, user._id);
+          return member.detail === user._id;
+        })
+        if (checkMember) return true;
+        return false;
+      })
+      if (checkNoti) {
+        toast.warn(<WarningToast group={checkNoti.name} presentation={data.name} />, {
+          icon: false,
+          hideProgressBar: true,
+          autoClose: 5000,
+        });
+      }
+      setSocketData({ event: "end-present", data });
+    });
+  }, [socket]);
 
   return socketData;
 };

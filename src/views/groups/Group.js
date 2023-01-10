@@ -18,7 +18,6 @@ const Group = () => {
   const [inviteUrl, setInviteUrl] = useState("");
 
   useEffect(async () => {
-    console.log("first")
     const groupId = searchParams.get("id");
     if (groupId) {
       const { data } = await axios.get(

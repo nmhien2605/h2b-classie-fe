@@ -7,7 +7,7 @@ const getUserInfo = async () => {
     try {
         const { data } = await axios.get(`${API_DOMAIN}/user-info`, { withCredentials: true })
         const userInfo = { ...data.user }
-        console.log(userInfo);
+        // console.log(userInfo);
         localStorage.setItem("user", JSON.stringify(userInfo));
     } catch (error) {
         console.log(error);

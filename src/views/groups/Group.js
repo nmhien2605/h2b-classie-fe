@@ -2,12 +2,7 @@
 import axios from "axios";
 import { Fragment, useEffect, useState } from "react";
 import CopyToClipboard from "react-copy-to-clipboard";
-import {
-  Button,
-  Card,
-  Col,
-  Row,
-} from "reactstrap";
+import { Button, Card, Col, Row } from "reactstrap";
 import Table from "./Table";
 import GroupPresentation from "./GroupPresentation";
 
@@ -16,6 +11,9 @@ const Group = () => {
   const [groupData, setGroupData] = useState({});
   const [presentationData, setPresentationData] = useState([]);
   const [inviteUrl, setInviteUrl] = useState("");
+  const [isOwner, setOwner] = useState(false);
+
+  const user = JSON.parse(localStorage.getItem("user"));
 
   useEffect(async () => {
     const groupId = searchParams.get("id");
@@ -28,6 +26,12 @@ const Group = () => {
       );
 
       if (data.success) {
+        const checkOwner = data.data.members.find((member) => {
+          return member.detail._id === user._id && (member.role === "owner" || member.role === "co-owner");
+        });
+        if (checkOwner) {
+          setOwner(true);
+        }
         setGroupData({ ...data.data });
       }
 
@@ -74,7 +78,11 @@ const Group = () => {
           <Table groupData={groupData} />
         </div>
       </Card>
-      <GroupPresentation group={searchParams.get("id")} presentationData={presentationData} />
+      <GroupPresentation
+        isOwner={isOwner}
+        group={searchParams.get("id")}
+        presentationData={presentationData}
+      />
     </Fragment>
   );
 };

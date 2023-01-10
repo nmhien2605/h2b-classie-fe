@@ -6,7 +6,7 @@ import Select from "react-select";
 import "@styles/base/pages/page-misc.scss";
 import { selectThemeColors } from "@utils";
 import axios from "axios";
-import { useEffect, useState, useContext } from "react";
+import { Fragment, useEffect, useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import {
@@ -21,7 +21,8 @@ import {
   Label,
   Row,
 } from "reactstrap";
-import { Play } from "react-feather";
+import { Play, Check } from "react-feather";
+import Avatar from "@components/avatar";
 import { SuccessToast } from "../../components/toast";
 import { SLIDE_TYPE } from "../../constants/slide";
 import { buildData } from "../../utility/chartData/barChartData";
@@ -54,9 +55,27 @@ const emptyData = {
   code: "code",
 };
 
+const API_DOMAIN = process.env.REACT_APP_API_DOMAIN;
+
+const WarningToast = ({ name }) => (
+  <Fragment>
+    <div className="toastify-header">
+      <div className="title-wrapper">
+        <Avatar size="sm" color="warning" icon={<Check size={12} />} />
+        <h6 className="toast-title">Fail</h6>
+      </div>
+    </div>
+    <div className="toastify-body">
+      <span role="img" aria-label="toast-text">
+        Has another presentation is presenting in group!
+      </span>
+    </div>
+  </Fragment>
+);
+
 const CreateSlide = () => {
   const searchParams = new URLSearchParams(document.location.search);
-  const socketData = useContext(SocketContext); 
+  const socketData = useContext(SocketContext);
   const [id, setId] = useState(searchParams.get("id"));
   const [isCreated, setIsCreated] = useState(false);
   const [current, setCurrent] = useState(0);
@@ -187,7 +206,25 @@ const CreateSlide = () => {
   };
 
   const handlePresent = () => {
-    history.push(`/view-slide?id=${id}`);
+    axios
+      .get(`${API_DOMAIN}/presentations/check-enable/${id}`, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        console.log(res)
+        if (res.data.success) {
+          history.push(`/view-slide?id=${id}`);
+        } else {
+          toast.warn(<WarningToast />, {
+            icon: false,
+            hideProgressBar: true,
+            autoClose: 5000,
+          });
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
   return (

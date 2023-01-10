@@ -121,7 +121,7 @@ export const closeRoom = () => {
 };
 
 export const joinRoom = (room) => {
-  socket.emit("req-join-room", room);
+  socket.emit("req-join-room", room, user);
 };
 
 export const voteRoom = (room, data) => {

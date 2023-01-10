@@ -127,7 +127,7 @@ const MyPresentations = () => {
                           <Col>
                             <Link to={`/create-slide?id=${presentation._id}`}>
                               <Edit2 size={14} className="me-50" />
-                              <span>Deteail</span>
+                              <span>Detail</span>
                             </Link>
                           </Col>
                           <Col>

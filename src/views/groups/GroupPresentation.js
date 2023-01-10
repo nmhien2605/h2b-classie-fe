@@ -2,7 +2,7 @@ import React, { Fragment, useEffect, useContext } from "react";
 import { toast } from "react-toastify";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import { Link } from "react-router-dom";
-import { Check, Airplay } from "react-feather";
+import { Check, Airplay, Edit2 } from "react-feather";
 import {
   Card,
   CardBody,
@@ -48,8 +48,8 @@ const WarningToast = ({ name }) => (
   </Fragment>
 );
 
-const GroupPresentation = ({ group, presentationData }) => {
-  const socketData = useContext(SocketContext); 
+const GroupPresentation = ({ isOwner, group, presentationData }) => {
+  const socketData = useContext(SocketContext);
 
   useEffect(() => {
     if (socketData.event === "start-present") {
@@ -78,7 +78,7 @@ const GroupPresentation = ({ group, presentationData }) => {
     <Card>
       <CardHeader>
         <CardTitle tag="h4">
-          Here are the list of presentations in group
+        {isOwner ? "Here are the list of presentations in group" : "Here is the presentations is presenting"}
         </CardTitle>
       </CardHeader>
       <PerfectScrollbar style={{ height: "calc(100vh - 250px)" }}>
@@ -86,38 +86,110 @@ const GroupPresentation = ({ group, presentationData }) => {
           <Row className="gy-2">
             {presentationData.length > 0 &&
               presentationData.map((presentation) => {
-                return (
-                  <Col key={presentation._id} sm={12}>
-                    <div className="bg-light-secondary position-relative rounded p-2">
-                      {presentation.isPresent && (
+                if (!presentation.isPresent) {
+                  return null;
+                } else {
+                  return (
+                    <Col key={presentation._id} sm={12}>
+                      <div className="bg-light-secondary position-relative rounded p-2">
                         <Row className="btn-pinned align-items-center">
-                          <Col>
-                            <Link to={`/vote-slide?code=${presentation.code}`}>
-                              <Airplay size={14} className="me-50" />
-                              <span>Join</span>
-                            </Link>
-                          </Col>
+                          {presentation.isPresent && (
+                            <Col>
+                              <Link
+                                to={`/vote-slide?code=${presentation.code}`}
+                              >
+                                <Airplay size={14} className="me-50" />
+                                <span>Join</span>
+                              </Link>
+                            </Col>
+                          )}
+                          {isOwner && (
+                            <Col>
+                              <Link to={`/create-slide?id=${presentation._id}`}>
+                                <Edit2 size={14} className="me-50" />
+                                <span>Detail</span>
+                              </Link>
+                            </Col>
+                          )}
                         </Row>
-                      )}
-                      <div className="d-flex align-items-center flex-wrap">
-                        <h4 className="mb-1 me-1">{presentation.name}</h4>
-                        <Badge className="mb-1" color="light-primary">
-                          {presentation.isPublic ? "Public" : "Groups only"}
-                        </Badge>
-                        {presentation.isPresent && (
-                          <Badge className="mb-1 ms-1" color="light-success">
-                            Presenting
+                        <div className="d-flex align-items-center flex-wrap">
+                          <h4 className="mb-1 me-1">{presentation.name}</h4>
+                          <Badge className="mb-1" color="light-primary">
+                            {presentation.isPublic ? "Public" : "Groups only"}
                           </Badge>
-                        )}
+                          {presentation.isPresent && (
+                            <Badge className="mb-1 ms-1" color="light-success">
+                              Presenting
+                            </Badge>
+                          )}
+                        </div>
+                        <span>
+                          Create on{" "}
+                          {new Date(
+                            presentation.createdAt
+                          ).toLocaleDateString()}{" "}
+                          {new Date(
+                            presentation.createdAt
+                          ).toLocaleTimeString()}
+                        </span>
                       </div>
-                      <span>
-                        Create on{" "}
-                        {new Date(presentation.createdAt).toLocaleDateString()}{" "}
-                        {new Date(presentation.createdAt).toLocaleTimeString()}
-                      </span>
-                    </div>
-                  </Col>
-                );
+                    </Col>
+                  );
+                }
+              })}
+            {presentationData.length > 0 &&
+              isOwner &&
+              presentationData.map((presentation) => {
+                if (presentation.isPresent) {
+                  return null;
+                } else {
+                  return (
+                    <Col key={presentation._id} sm={12}>
+                      <div className="bg-light-secondary position-relative rounded p-2">
+                        <Row className="btn-pinned align-items-center">
+                          {presentation.isPresent && (
+                            <Col>
+                              <Link
+                                to={`/vote-slide?code=${presentation.code}`}
+                              >
+                                <Airplay size={14} className="me-50" />
+                                <span>Join</span>
+                              </Link>
+                            </Col>
+                          )}
+                          {isOwner && (
+                            <Col>
+                              <Link to={`/create-slide?id=${presentation._id}`}>
+                                <Edit2 size={14} className="me-50" />
+                                <span>Detail</span>
+                              </Link>
+                            </Col>
+                          )}
+                        </Row>
+                        <div className="d-flex align-items-center flex-wrap">
+                          <h4 className="mb-1 me-1">{presentation.name}</h4>
+                          <Badge className="mb-1" color="light-primary">
+                            {presentation.isPublic ? "Public" : "Groups only"}
+                          </Badge>
+                          {presentation.isPresent && (
+                            <Badge className="mb-1 ms-1" color="light-success">
+                              Presenting
+                            </Badge>
+                          )}
+                        </div>
+                        <span>
+                          Create on{" "}
+                          {new Date(
+                            presentation.createdAt
+                          ).toLocaleDateString()}{" "}
+                          {new Date(
+                            presentation.createdAt
+                          ).toLocaleTimeString()}
+                        </span>
+                      </div>
+                    </Col>
+                  );
+                }
               })}
           </Row>
         </CardBody>

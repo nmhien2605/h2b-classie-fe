@@ -32,14 +32,13 @@ import { Link } from "react-router-dom";
 import {
   SocketContext,
   getQuestions,
-  sendQuestion,
   likeQuestion,
+  answerQuestion,
 } from "../../utility/Socket";
 
-const QuestionTab = ({ room }) => {
+const QuestionTabControl = ({ room }) => {
   const socketData = useContext(SocketContext);
   const [questions, setQuestions] = useState([]);
-  const [text, setText] = useState("");
 
   useEffect(() => {
     if (socketData.event === "update-question") {
@@ -52,23 +51,22 @@ const QuestionTab = ({ room }) => {
     getQuestions(room);
   }, []);
 
-  const handleSendQuestion = (e) => {
-    e.preventDefault();
-    sendQuestion(room, text);
-  };
-
   const handleLikeQuestion = (id) => {
     likeQuestion(room, id);
+  };
+
+  const handleAnswerQuestion = (id) => {
+    answerQuestion(room, id);
   };
 
   return (
     <Card>
       {/* <CardHeader>
-        <CardTitle tag='h4'></CardTitle>
-        <MoreVertical size={18} className='cursor-pointer' />
+        <CardTitle tag="h4"></CardTitle>
+        <MoreVertical size={18} className="cursor-pointer" />
       </CardHeader> */}
       <CardBody>
-        <div className="mb-1" style={{ height: "70vh", overflow: "auto" }}>
+        <div className="mb-1" style={{ height: "75vh", overflow: "auto" }}>
           {questions.map((question) => (
             <div className="mb-1" key={question.id}>
               <div>
@@ -90,43 +88,31 @@ const QuestionTab = ({ room }) => {
                   </span>
                   <ThumbsUp size={16} style={{ verticalAlign: "top" }} />
                 </Button>
-                {question.isAnswer && (
+                {question.isAnswer ? (
                   <Badge style={{ padding: 7, fontSize: 13 }} color="success">
                     Answered
                   </Badge>
-                  // <Button
-                  //   style={{
-                  //     padding: 5,
-                  //     paddingTop: 6,
-                  //     fontSize: 13,
-                  //     fontWeight: "bold",
-                  //   }}
-                  //   color="success"
-                  //   disabled
-                  // >
-                  //   Answered
-                  // </Button>
+                ) : (
+                  <Button
+                    style={{
+                      padding: 5,
+                      paddingBlock: 6,
+                      fontSize: 14,
+                      fontWeight: "bold",
+                    }}
+                    color="warning"
+                    onClick={() => handleAnswerQuestion(question.id)}
+                  >
+                    Make Answered
+                  </Button>
                 )}
               </div>
             </div>
           ))}
         </div>
-        <Form className="chat-app-form" onSubmit={(e) => handleSendQuestion(e)}>
-          <InputGroup>
-            <Input
-              value={text}
-              onChange={(e) => setText(e.target.value)}
-              placeholder="Type your message"
-            />
-            <Button className="send" color="primary">
-              <Send size={14} className="d-lg-none" />
-              <span className="d-none d-lg-block">Send</span>
-            </Button>
-          </InputGroup>
-        </Form>
       </CardBody>
     </Card>
   );
 };
 
-export default QuestionTab;
+export default QuestionTabControl;

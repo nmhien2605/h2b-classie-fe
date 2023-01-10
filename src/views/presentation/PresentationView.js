@@ -86,7 +86,7 @@ const PresentationView = () => {
   return (
     <div className="mt-2">
       {!isJoined ? (
-        <Card style={{ marginBottom: 0, margin: "40px" }}>
+        <Card style={{ marginBottom: 0, margin: "20px" }}>
           <CardHeader className="justify-content-center">
             <CardTitle tag={"h2"}>Join with Code</CardTitle>
           </CardHeader>
@@ -99,9 +99,9 @@ const PresentationView = () => {
         </Card>
       ) : (
         <Row className='match-height'>
-          <Col xs={9}>
+          <Col xs={9} >
             {/* content */}
-            <>
+            <div className="m-1">
               {!isVoted ? (
                 <>
                   {/* if slide type = multi choice */}
@@ -115,7 +115,7 @@ const PresentationView = () => {
                 <>
                   {/* if slide type = multi choice */}
                   <SlideView
-                    extraTitle={`Go to www.h2b.com and use the code ${code}`}
+                    title={`Go to www.h2b.com and use the code ${code}`}
                     chartData={buildData(
                       slides[current].detail.options,
                       slides[current].detail.values
@@ -123,11 +123,11 @@ const PresentationView = () => {
                   />
                 </>
               )}
-            </>
+            </div>
           </Col>
           <Col xs={3}>
             {/* Chat Bar */}
-            <ChatBox room={code}></ChatBox>
+            <ChatBox room={code} ></ChatBox>
           </Col>
         </Row>
 

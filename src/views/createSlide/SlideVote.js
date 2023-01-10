@@ -7,8 +7,8 @@ const SlideVote = ({ title, options, handleVote }) => {
     return (
       <div>
         <Button
-        className="btn my-2"
-        color="primary"
+          className="btn my-2"
+          color="primary"
           key={key}
           onClick={() => {
             handleVote(key);
@@ -21,7 +21,7 @@ const SlideVote = ({ title, options, handleVote }) => {
   }) : null;
 
   return (
-    <Card style={{ border: "1px solid black", marginBottom: 0 }}>
+    <Card style={{ border: "1px solid black", marginBottom: 0, height: '75vh' }}>
       <CardHeader className="justify-content-center">
         <CardTitle tag={"h2"}>{title}</CardTitle>
       </CardHeader>

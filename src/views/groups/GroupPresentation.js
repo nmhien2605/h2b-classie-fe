@@ -1,3 +1,5 @@
+
+/*eslint eqeqeq:0*/
 import React, { Fragment, useEffect, useContext } from "react";
 import { toast } from "react-toastify";
 import PerfectScrollbar from "react-perfect-scrollbar";
@@ -78,7 +80,7 @@ const GroupPresentation = ({ isOwner, group, presentationData }) => {
     <Card>
       <CardHeader>
         <CardTitle tag="h4">
-        {isOwner ? "Here are the list of presentations in group" : "Here is the presentations is presenting"}
+          {isOwner ? "Here are the list of presentations in group" : "Here is the presentations is presenting"}
         </CardTitle>
       </CardHeader>
       <PerfectScrollbar style={{ height: "calc(100vh - 250px)" }}>

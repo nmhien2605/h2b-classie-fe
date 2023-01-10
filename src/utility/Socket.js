@@ -103,11 +103,12 @@ export const useSocket = () => {
       }
       setSocketData({ event: "end-present", data });
     });
+    socket.on("broadcast-new-msg", (data) => {
+      setSocketData({ event: "broadcast-new-msg", data });
+    })
   }, [socket]);
 
-  socket.on("broadcast-new-msg", (data) => {
-    setSocketData({ event: "broadcast-new-msg", data });
-  })
+
   return socketData;
 };
 // socket client -> server

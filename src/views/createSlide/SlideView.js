@@ -15,7 +15,7 @@ const SlideView = ({ extraTitle, title, chartData }) => {
   return (
 
     <Fragment>
-      <Card style={{ border: "1px solid black", marginBottom: 0 }}>
+      <Card style={{ border: "1px solid black", marginBottom: 0, height: '75vh' }}>
         <CardHeader className="justify-content-center">
           <CardTitle tag={"h2"}>
             {extraTitle} <br /> {title}
@@ -30,8 +30,8 @@ const SlideView = ({ extraTitle, title, chartData }) => {
           // setValues={setValues}
           />
         </CardBody>
-      </Card>
-    </Fragment>
+      </Card >
+    </Fragment >
 
   );
 };

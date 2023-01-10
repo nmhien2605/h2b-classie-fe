@@ -10,8 +10,8 @@ import { Link } from 'react-router-dom';
 const QuestionTab = () => {
 
     return (
-        <Card>
-            <CardHeader>
+        <Card style={{ height: '70vh' }}>
+            <CardHeader >
                 <CardTitle tag='h4'></CardTitle>
                 <MoreVertical size={18} className='cursor-pointer' />
             </CardHeader>

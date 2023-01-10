@@ -53,22 +53,24 @@ const GroupPresentation = ({ group, presentationData }) => {
 
   useEffect(() => {
     if (socketData.event === "start-present") {
-      if (socketData.data.groups.includes(group)) {
-        toast.success(<SuccessToast name={socketData.data.name} />, {
-          icon: false,
-          hideProgressBar: true,
-          autoClose: 5000,
-        });
-      }
+      // console.log("first")
+      // if (socketData.data.groups.includes(group)) {
+      //   toast.success(<SuccessToast name={socketData.data.name} />, {
+      //     icon: false,
+      //     hideProgressBar: true,
+      //     autoClose: 5000,
+      //   });
+      // }
     }
     if (socketData.event === "end-present") {
-      if (socketData.data.groups.includes(group)) {
-        toast.success(<WarningToast name={socketData.data.name} />, {
-          icon: false,
-          hideProgressBar: true,
-          autoClose: 5000,
-        });
-      }
+      // console.log("first")
+      // if (socketData.data.groups.includes(group)) {
+      //   toast.success(<WarningToast name={socketData.data.name} />, {
+      //     icon: false,
+      //     hideProgressBar: true,
+      //     autoClose: 5000,
+      //   });
+      // }
     }
   }, [socketData]);
 

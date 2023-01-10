@@ -35,6 +35,11 @@ const Routes = [
     layout: 'BlankLayout',
   },
   {
+    path: '/groups/invite',
+    component: lazy(() => import('../../views/JoinGroup')),
+    layout: 'BlankLayout',
+  },
+  {
     path: '/reset-password/:id',
     component: lazy(() => import('../../views/ResetPasswordBasic')),
     layout: 'BlankLayout',

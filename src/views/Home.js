@@ -9,7 +9,7 @@ import {
   CardText,
   CardTitle,
   Col,
-  Row
+  Row,
 } from "reactstrap";
 
 import axios from "axios";
@@ -24,7 +24,7 @@ const MySwal = withReactContent(Swal);
 
 const dateTime = (dateStr) => {
   const date = new Date(dateStr);
-  return date.toLocaleDateString() + date.toLocaleTimeString();
+  return date.toLocaleDateString() + " " + date.toLocaleTimeString();
 };
 
 const Home = () => {
@@ -108,7 +108,7 @@ const Home = () => {
           withCredentials: true,
         }
       );
-      loadGroups()
+      loadGroups();
     } else if (result.dismiss === MySwal.DismissReason.cancel) {
       MySwal.fire({
         title: "Cancelled",

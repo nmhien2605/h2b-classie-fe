@@ -30,10 +30,10 @@ const ChatBox = ({ room, isClient }) => {
     }, [])
 
     return (
-        <Fragment>
-            <Row>
+        <Fragment >
+            <Row >
                 <Col xs={12}>
-                    <Tabs className='mb-2' activeTab={activeTab} toggleTab={toggleTab} />
+                    <Tabs className='' activeTab={activeTab} toggleTab={toggleTab} />
 
                     <TabContent activeTab={activeTab}>
                         <TabPane tabId='1'>

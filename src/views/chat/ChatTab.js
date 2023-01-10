@@ -53,10 +53,10 @@ const ChatTab = ({ room }) => {
     const renderMessage = () => {
         return chatLog.map(text => {
             return (
-                <div key={text.id} className='employee-task d-flex justify-content-between align-items-center mb-2'>
+                <div key={text.id} className='employee-task d-flex justify-content-between align-items-center'>
                     <div className='my-auto'>
-                        <span className='mb-0 '>{text.name} : </span>
-                        <small>{text.content}</small>
+                        <h6 className='mb-0'>{text.name} : </h6>
+                        <p> {text.content}</p>
                     </div>
 
                     <div className='d-flex align-items-center'>
@@ -84,7 +84,7 @@ const ChatTab = ({ room }) => {
     }, [socketData])
     return (
         <Fragment>
-            <Card >
+            <Card style={{ height: '70vh' }}>
                 <CardHeader>
                     <CardTitle tag='h4'></CardTitle>
                     <MoreVertical size={18} className='cursor-pointer' />

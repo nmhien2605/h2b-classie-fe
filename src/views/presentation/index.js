@@ -88,22 +88,17 @@ const Presentation = () => {
   };
 
   return (
-    <div>
+    <div >
       {/* <div className="container-lg d-flex align-items-center h-100">
       <div className="w-100"> */}
       {!isLoading ? (
-        <>
-          <Button onClick={handleClosePresent}>Close</Button>
-          <>
-            {current !== slides.length - 1 ? (
-              <Button onClick={handleNextSlide}>Next Slide</Button>
-            ) : null}
-          </>
+        <div className="m-1" >
 
           {/* if slide type = multi choice */}
           <Row className='match-height'>
-            <Col xs={9}>
+            <Col xs={9} >
               {/* content */}
+
               <SlideView
                 title={`Go to ${process.env.REACT_APP_DOMAIN}/vote-slide and use the code ${code}`}
                 chartData={buildData(
@@ -112,6 +107,8 @@ const Presentation = () => {
                 )}
                 setCurrent={setCurrent}
               />
+
+
             </Col>
             <Col xs={3}>
               {/* Chat Bar */}
@@ -119,8 +116,16 @@ const Presentation = () => {
             </Col>
           </Row>
 
+          <Button className="mt-2" onClick={handleClosePresent}>Close</Button>
+          <>
+            {current !== slides.length - 1 ? (
+              <Button onClick={handleNextSlide}>Next Slide</Button>
+            ) : null}
+          </>
+
+
           {/* add button next and pre slide */}
-        </>
+        </div>
       ) : null}
       {/* </div> */}
     </div>

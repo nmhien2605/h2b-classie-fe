@@ -25,7 +25,7 @@ const API_DOMAIN = process.env.REACT_APP_API_DOMAIN;
 
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
-import ChatLog from "../chat";
+import ChatBox from "../chat";
 const MySwal = withReactContent(Swal);
 
 const PresentationView = () => {
@@ -68,6 +68,7 @@ const PresentationView = () => {
   }, [socketData]);
 
   useEffect(() => {
+    console.log(code);
     if (query.get("code")) {
       joinRoom(code);
     }
@@ -126,7 +127,7 @@ const PresentationView = () => {
           </Col>
           <Col xs={3}>
             {/* Chat Bar */}
-            <ChatLog></ChatLog>
+            <ChatBox room={code}></ChatBox>
           </Col>
         </Row>
 

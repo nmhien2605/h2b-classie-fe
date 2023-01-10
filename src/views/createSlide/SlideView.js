@@ -6,7 +6,7 @@ import { Fragment } from "react";
 
 import { Card, CardBody, CardHeader, CardTitle } from "reactstrap";
 import ChartjsBarChart from "../../components/chart-js/ChartjsBarChart";
-import ChatLog from "../chat";
+import ChatBox from "../chat";
 
 const SlideView = ({ extraTitle, title, chartData }) => {
   const { skin } = useSkin();

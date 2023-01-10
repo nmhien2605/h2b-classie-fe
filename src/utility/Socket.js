@@ -36,9 +36,13 @@ export const useSocket = () => {
     setSocketData({ event: "end-present", data });
   })
 
+  socket.on("broadcast-new-msg", (data) => {
+    setSocketData({ event: "broadcast-new-msg", data });
+  })
   return socketData;
 };
-
+// socket client -> server
+// socket for presentation 
 export const hostRoom = (room) => {
   socket.emit("req-host-room", room);
 };
@@ -58,3 +62,12 @@ export const voteRoom = (room, data) => {
 export const nextSlide = (room) => {
   socket.emit("req-next-slide", room);
 };
+
+// socket for chat log
+
+export const sendText = (room, name, text) => {
+  if (name === 'guest') {
+    name = `Guest ${socket.id}`
+  }
+  socket.emit("req-send-text", room, name, text)
+}

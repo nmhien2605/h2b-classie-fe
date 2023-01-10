@@ -1,3 +1,4 @@
+/*eslint eqeqeq:0*/
 /*eslint-disable */
 import {
   Button,

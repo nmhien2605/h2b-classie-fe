@@ -1,6 +1,8 @@
+
+/*eslint eqeqeq:0*/
 /*eslint-disable */
 // ** React Imports
-import { useEffect, Fragment, useState, useRef } from "react";
+import { useEffect, Fragment, useState } from "react";
 
 // ** Table Columns
 import { columns } from "./columns";

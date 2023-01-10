@@ -6,12 +6,30 @@ import { Row, Col, Card, CardHeader, CardBody, CardTitle, Input, Label, Button, 
 // ** Icons Imports
 import { CheckSquare as Check, Send, Link as LinkIcon, MoreVertical } from 'react-feather'
 import { Link } from 'react-router-dom';
-import { Fragment } from 'react';
+import { Fragment, useState, useEffect, useContext } from 'react';
+import { SocketContext, sendText } from '../../utility/Socket';
 
 
 
-const ChatTab = () => {
-    const fakeMsg = [
+const ChatTab = ({ room }) => {
+    const [userData, setUserData] = useState(null)
+
+    const [text, setText] = useState('');
+    const [chatLog, setChatLog] = useState([])
+    const socketData = useContext(SocketContext);
+    const handleSendText = (e) => {
+        e.preventDefault();
+        if (text !== '') {
+            let name = 'guest';
+            if (userData) {
+                name = userData.name;
+            }
+            sendText(room, name, text);
+            setText('')
+        }
+    }
+
+    const fakeText = [
         {
             id: 'aaa',
             name: 'display name A',
@@ -33,22 +51,37 @@ const ChatTab = () => {
 
     ]
     const renderMessage = () => {
-        return fakeMsg.map(msg => {
+        return chatLog.map(text => {
             return (
-                <div key={msg.id} className='employee-task d-flex justify-content-between align-items-center mb-2'>
+                <div key={text.id} className='employee-task d-flex justify-content-between align-items-center mb-2'>
                     <div className='my-auto'>
-                        <span className='mb-0 '>{msg.name} : </span>
-                        <small>{msg.content}</small>
+                        <span className='mb-0 '>{text.name} : </span>
+                        <small>{text.content}</small>
                     </div>
 
                     <div className='d-flex align-items-center'>
-                        <small className='text-muted me-75'>{msg.time}</small>
+                        <small className='text-muted me-75'>{text.time}</small>
 
                     </div>
                 </div>
             )
         })
     }
+    useEffect(() => {
+        const user = JSON.parse(localStorage.getItem('user'))
+        if (user) {
+            setUserData(user);
+        }
+    }, [])
+    //listener 
+    useEffect(() => {
+        if (socketData.event === "broadcast-new-msg") {
+            console.log(socketData.data);
+            // console.log(chatLog);
+            setChatLog([...chatLog, socketData.data])
+        }
+
+    }, [socketData])
     return (
         <Fragment>
             <Card >
@@ -58,12 +91,12 @@ const ChatTab = () => {
                 </CardHeader>
                 <CardBody>{renderMessage()}</CardBody>
 
-                <Form className='chat-app-form' onSubmit={e => handleSendMsg(e)}>
+                <Form className='chat-app-form' onSubmit={e => handleSendText(e)}>
                     <Row>
                         <InputGroup>
                             <Input
-                                // value={msg}
-                                // onChange={e => setMsg(e.target.value)}
+                                value={text}
+                                onChange={e => setText(e.target.value)}
                                 placeholder='Type your message'
                             />
                             <Button className='send' color='primary'>

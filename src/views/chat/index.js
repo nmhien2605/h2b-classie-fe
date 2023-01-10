@@ -17,7 +17,7 @@ import QuestionTab from './QuestionTab'
 import '@styles/react/libs/flatpickr/flatpickr.scss'
 import '@styles/react/pages/page-account-settings.scss'
 
-const ChatLog = () => {
+const ChatBox = ({ room }) => {
     // ** States
     const [activeTab, setActiveTab] = useState('1');
 
@@ -36,7 +36,7 @@ const ChatLog = () => {
 
                     <TabContent activeTab={activeTab}>
                         <TabPane tabId='1'>
-                            <ChatTab />
+                            <ChatTab room={room} />
                         </TabPane>
                         <TabPane tabId='2'>
                             <QuestionTab />
@@ -49,4 +49,4 @@ const ChatLog = () => {
     )
 }
 
-export default ChatLog
+export default ChatBox

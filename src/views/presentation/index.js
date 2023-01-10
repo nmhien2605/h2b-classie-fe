@@ -8,7 +8,7 @@ import { useHistory } from "react-router-dom";
 import { buildData } from "../../utility/chartData/barChartData";
 import SlideView from "../createSlide/SlideView";
 import { Button, Col, Row } from "reactstrap";
-import ChatLog from "../chat";
+import ChatBox from "../chat";
 import { SocketContext, hostRoom, closeRoom, nextSlide } from "../../utility/Socket";
 
 const API_DOMAIN = process.env.REACT_APP_API_DOMAIN;
@@ -83,7 +83,6 @@ const Presentation = () => {
         console.error(error);
       });
   };
-  console.log(process.env.REACT_APP_DOMAIN);
   const handleNextSlide = () => {
     nextSlide(code);
   };
@@ -103,8 +102,8 @@ const Presentation = () => {
 
           {/* if slide type = multi choice */}
           <Row className='match-height'>
-            {/* content */}
             <Col xs={9}>
+              {/* content */}
               <SlideView
                 title={`Go to ${process.env.REACT_APP_DOMAIN}/vote-slide and use the code ${code}`}
                 chartData={buildData(
@@ -115,8 +114,8 @@ const Presentation = () => {
               />
             </Col>
             <Col xs={3}>
-              {/* Fragment Chat */}
-              <ChatLog></ChatLog>
+              {/* Chat Bar */}
+              <ChatBox room={code}></ChatBox>
             </Col>
           </Row>
 

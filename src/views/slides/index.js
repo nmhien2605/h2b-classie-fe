@@ -25,6 +25,7 @@ const MySwal = withReactContent(Swal);
 
 const MyPresentations = () => {
   const [presentations, setPresentations] = useState([]);
+  const [user, setUser] = useState();
 
   useEffect(async () => {
     const { data } = await axios.get(
@@ -67,6 +68,11 @@ const MyPresentations = () => {
   //   }
   // };
 
+  useEffect(() => {
+    const localUser = JSON.parse(localStorage.getItem("user"));
+    setUser({ ...localUser });
+  }, []);
+
   const onDelete = async (id) => {
     const result = await MySwal.fire({
       title: "Are you sure?",
@@ -107,6 +113,38 @@ const MyPresentations = () => {
     }
   };
 
+  const addCollab = async (presentation) => {
+    const { value, isDismissed } = await MySwal.fire({
+      title: `Add collaborator for - ${presentation.name}`,
+      input: "text",
+      inputPlaceholder: "Enter their email address",
+      padding: "30px",
+      width: "500px",
+      inputValue: "",
+      showCancelButton: true,
+      customClass: {
+        confirmButton: "btn btn-primary",
+        cancelButton: "btn btn-danger ms-1",
+      },
+    });
+    console.log({ value });
+
+    const data = await axios.post(
+      `${process.env.REACT_APP_API_DOMAIN}/presentations/${presentation._id}/add-collab`,
+      { email: value },
+      {
+        withCredentials: true,
+      }
+    );
+
+    MySwal.fire({
+      title: "Success",
+      text: "A collaborator successfully added",
+      icon: "success",
+    });
+    console.log({ data });
+  };
+
   return (
     <div>
       <Card>
@@ -124,6 +162,18 @@ const MyPresentations = () => {
                     <Col key={presentation._id} sm={12}>
                       <div className="bg-light-secondary position-relative rounded p-2">
                         <Row className="btn-pinned align-items-center">
+                          <Col>
+                            {presentation?.owner?._id === user._id && (
+                              <Button
+                                className="d-flex align-items-center"
+                                color="primary"
+                                style={{ whiteSpace: "nowrap" }}
+                                onClick={() => addCollab(presentation)}
+                              >
+                                Add Collab
+                              </Button>
+                            )}
+                          </Col>
                           <Col>
                             <Link to={`/create-slide?id=${presentation._id}`}>
                               <Edit2 size={14} className="me-50" />
@@ -146,6 +196,16 @@ const MyPresentations = () => {
                           <h4 className="mb-1 me-1">{presentation.name}</h4>
                           <Badge className="mb-1" color="light-primary">
                             {presentation.isPublic ? "Public" : "Groups only"}
+                          </Badge>
+                          <Badge className="mb-1 ms-2" color="info">
+                            {presentation?.owner?._id === user._id
+                              ? "Owner"
+                              : ""}
+                          </Badge>
+                          <Badge className="mb-1 ms-2" color="info">
+                            {presentation["co-owner"]?.includes(user._id)
+                              ? "Co-Owner"
+                              : ""}
                           </Badge>
                         </div>
                         <span>

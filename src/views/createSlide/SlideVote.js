@@ -21,7 +21,7 @@ const SlideVote = ({ title, options, handleVote }) => {
   }) : null;
 
   return (
-    <Card style={{ border: "1px solid black", marginBottom: 0, height: '75vh' }}>
+    <Card style={{ border: "1px solid black", marginBottom: 0, height: "100%" }}>
       <CardHeader className="justify-content-center">
         <CardTitle tag={"h2"}>{title}</CardTitle>
       </CardHeader>

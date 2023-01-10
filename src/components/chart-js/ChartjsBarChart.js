@@ -56,8 +56,8 @@ const ChartjsBarChart = ({
   return (
     <Card>
       <CardBody>
-        <div style={{ height: "500px" }}>
-          <Bar data={chartData} options={options} height={500} />
+        <div>
+          <Bar data={chartData} options={options} height={300} />
         </div>
       </CardBody>
     </Card>

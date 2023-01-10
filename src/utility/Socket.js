@@ -28,6 +28,14 @@ export const useSocket = () => {
     setSocketData({ event: "next-slide", data });
   })
 
+  socket.on("start-present", (data) => {
+    setSocketData({ event: "start-present", data });
+  })
+
+  socket.on("end-present", (data) => {
+    setSocketData({ event: "end-present", data });
+  })
+
   return socketData;
 };
 

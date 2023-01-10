@@ -55,6 +55,7 @@ const QuestionTab = ({ room }) => {
   const handleSendQuestion = (e) => {
     e.preventDefault();
     sendQuestion(room, text);
+    setText("");
   };
 
   const handleLikeQuestion = (id) => {
@@ -62,13 +63,19 @@ const QuestionTab = ({ room }) => {
   };
 
   return (
-    <Card>
+    <Card style={{ height: "100%" }}>
       {/* <CardHeader>
         <CardTitle tag='h4'></CardTitle>
         <MoreVertical size={18} className='cursor-pointer' />
       </CardHeader> */}
-      <CardBody>
-        <div className="mb-1" style={{ height: "70vh", overflow: "auto" }}>
+      <CardBody
+        style={{
+          display: "flex",
+          flexFlow: "column",
+          height: "100%",
+        }}
+      >
+        <div className="mb-1" style={{ flex: "1 1 auto", overflow: "auto" }}>
           {questions.map((question) => (
             <div className="mb-1" key={question.id}>
               <div>
@@ -111,7 +118,7 @@ const QuestionTab = ({ room }) => {
             </div>
           ))}
         </div>
-        <Form className="chat-app-form" onSubmit={(e) => handleSendQuestion(e)}>
+        <Form className="chat-app-form" style={{ flex: "0 1 40px" }} onSubmit={(e) => handleSendQuestion(e)}>
           <InputGroup>
             <Input
               value={text}

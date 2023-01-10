@@ -84,12 +84,12 @@ const ChatTab = ({ room }) => {
     }, [socketData])
     return (
         <Fragment>
-            <Card style={{ height: '70vh' }}>
+            <Card style={{ height: '100%' }}>
                 <CardHeader>
                     <CardTitle tag='h4'></CardTitle>
                     <MoreVertical size={18} className='cursor-pointer' />
                 </CardHeader>
-                <CardBody>{renderMessage()}</CardBody>
+                <CardBody style={{ height: '100%' }}>{renderMessage()}</CardBody>
 
                 <Form className='chat-app-form' onSubmit={e => handleSendText(e)}>
                     <Row>

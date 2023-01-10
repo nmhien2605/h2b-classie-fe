@@ -16,7 +16,7 @@ import {
   Input,
   Button,
   Row,
-  Col
+  Col,
 } from "reactstrap";
 
 import { SocketContext, joinRoom, voteRoom } from "../../utility/Socket";
@@ -72,7 +72,7 @@ const PresentationView = () => {
     if (query.get("code")) {
       joinRoom(code);
     }
-  }, [])
+  }, []);
 
   const handleJoin = () => {
     joinRoom(code);
@@ -84,54 +84,67 @@ const PresentationView = () => {
   };
 
   return (
-    <div className="mt-2">
-      {!isJoined ? (
-        <Card style={{ marginBottom: 0, margin: "20px" }}>
-          <CardHeader className="justify-content-center">
-            <CardTitle tag={"h2"}>Join with Code</CardTitle>
-          </CardHeader>
-          <CardBody>
-            <Input value={code} onChange={(e) => setCode(e.target.value)} />
-            <Button onClick={handleJoin} className="mt-2" color="primary">
-              Join
-            </Button>
-          </CardBody>
-        </Card>
-      ) : (
-        <Row className='match-height'>
-          <Col xs={9} >
-            {/* content */}
-            <div className="m-1">
-              {!isVoted ? (
-                <>
-                  {/* if slide type = multi choice */}
-                  <SlideVote
-                    title={slides[current].detail.title}
-                    options={slides[current].detail.options}
-                    handleVote={handleVote}
-                  />
-                </>
-              ) : (
-                <>
-                  {/* if slide type = multi choice */}
-                  <SlideView
-                    title={`Go to www.h2b.com and use the code ${code}`}
-                    chartData={buildData(
-                      slides[current].detail.options,
-                      slides[current].detail.values
+    <div style={{ height: "100vh" }}>
+      <div className="m-1" style={{ height: "95%" }}>
+        {!isJoined ? (
+          <Card style={{ marginBottom: 0, margin: "20px" }}>
+            <CardHeader className="justify-content-center">
+              <CardTitle tag={"h2"}>Join with Code</CardTitle>
+            </CardHeader>
+            <CardBody>
+              <Input value={code} onChange={(e) => setCode(e.target.value)} />
+              <Button onClick={handleJoin} className="mt-2" color="primary">
+                Join
+              </Button>
+            </CardBody>
+          </Card>
+        ) : (
+          <div
+            style={{
+              display: "flex",
+              flexFlow: "column",
+              height: "100%",
+            }}
+          >
+            <div style={{ flex: "1 1 auto" }}>
+              <Row style={{ height: "100%" }}>
+                <Col xs={9}>
+                  {/* content */}
+                  <div style={{ height: "100%" }}>
+                    {!isVoted ? (
+                      <>
+                        {/* if slide type = multi choice */}
+                        <SlideVote
+                          style={{ height: "100%" }}
+                          title={slides[current].detail.title}
+                          options={slides[current].detail.options}
+                          handleVote={handleVote}
+                        />
+                      </>
+                    ) : (
+                      <>
+                        {/* if slide type = multi choice */}
+                        <SlideView
+                          style={{ height: "100%" }}
+                          title={`Go to www.h2b.com and use the code ${code}`}
+                          chartData={buildData(
+                            slides[current].detail.options,
+                            slides[current].detail.values
+                          )}
+                        />
+                      </>
                     )}
-                  />
-                </>
-              )}
+                  </div>
+                </Col>
+                <Col xs={3}>
+                  {/* Chat Bar */}
+                  <ChatBox room={code} isClient={true}></ChatBox>
+                </Col>
+              </Row>
             </div>
-          </Col>
-          <Col xs={3}>
-            {/* Chat Bar */}
-            <ChatBox room={code} isClient={true}></ChatBox>
-          </Col>
-        </Row>
-
-      )}
+          </div>
+        )}
+      </div>
     </div>
   );
 };

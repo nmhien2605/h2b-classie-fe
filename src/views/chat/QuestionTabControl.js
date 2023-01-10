@@ -60,13 +60,13 @@ const QuestionTabControl = ({ room }) => {
   };
 
   return (
-    <Card>
+    <Card style={{ height: '100%' }}>
       {/* <CardHeader>
         <CardTitle tag="h4"></CardTitle>
         <MoreVertical size={18} className="cursor-pointer" />
       </CardHeader> */}
       <CardBody>
-        <div className="mb-1" style={{ height: "75vh", overflow: "auto" }}>
+        <div className="mb-1" style={{ overflow: "auto" }}>
           {questions.map((question) => (
             <div className="mb-1" key={question.id}>
               <div>

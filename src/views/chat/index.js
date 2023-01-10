@@ -12,12 +12,13 @@ import Tabs from './Tabs'
 
 import ChatTab from './ChatTab'
 import QuestionTab from './QuestionTab'
+import QuestionTabControl from './QuestionTabControl'
 
 // ** Styles
 import '@styles/react/libs/flatpickr/flatpickr.scss'
 import '@styles/react/pages/page-account-settings.scss'
 
-const ChatBox = ({ room }) => {
+const ChatBox = ({ room, isClient }) => {
     // ** States
     const [activeTab, setActiveTab] = useState('1');
 
@@ -38,10 +39,17 @@ const ChatBox = ({ room }) => {
                         <TabPane tabId='1'>
                             <ChatTab room={room} />
                         </TabPane>
-                        <TabPane tabId='2'>
-                            <QuestionTab />
-                        </TabPane>
-
+                        {
+                            isClient
+                            ?
+                            <TabPane tabId='2'>
+                                <QuestionTab room={room} />
+                            </TabPane>
+                            :
+                            <TabPane tabId='2'>
+                                <QuestionTabControl room={room} />
+                            </TabPane>
+                        }
                     </TabContent>
                 </Col>
             </Row>

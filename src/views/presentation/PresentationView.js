@@ -127,7 +127,7 @@ const PresentationView = () => {
           </Col>
           <Col xs={3}>
             {/* Chat Bar */}
-            <ChatBox room={code} ></ChatBox>
+            <ChatBox room={code} isClient={true}></ChatBox>
           </Col>
         </Row>
 

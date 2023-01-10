@@ -103,9 +103,14 @@ export const useSocket = () => {
       }
       setSocketData({ event: "end-present", data });
     });
+
     socket.on("broadcast-new-msg", (data) => {
       setSocketData({ event: "broadcast-new-msg", data });
-    })
+    });
+
+    socket.on("update-question", (data) => {
+      setSocketData({ event: "update-question", data });
+    });
   }, [socket]);
 
 
@@ -122,7 +127,7 @@ export const closeRoom = () => {
 };
 
 export const joinRoom = (room) => {
-  socket.emit("req-join-room", room);
+  socket.emit("req-join-room", room, user);
 };
 
 export const voteRoom = (room, data) => {
@@ -140,4 +145,32 @@ export const sendText = (room, name, text) => {
     name = `Guest ${socket.id}`
   }
   socket.emit("req-send-text", room, name, text)
+}
+
+export const getQuestions = (room) => {
+  socket.emit("req-get-question", room);
+}
+
+export const sendQuestion = (room, question) => {
+  if (user) {
+    socket.emit("req-send-question", room, { id: user._id.toString(), name: user.name }, question);
+  } else {
+    socket.emit("req-send-question", room, { id: socket.id, name: socket.id.toString().slice(0, 6) }, question);
+  }
+}
+
+export const likeQuestion = (room, questionId) => {
+  if (user) {
+    socket.emit("req-like-question", room, { id: user._id.toString(), name: user.name }, questionId);
+  } else {
+    socket.emit("req-like-question", room, { id: socket.id, name: socket.id.toString().slice(0, 6) }, questionId);
+  }
+}
+
+export const answerQuestion = (room, questionId) => {
+  if (user) {
+    socket.emit("req-answer-question", room, { id: user._id.toString(), name: user.name }, questionId);
+  } else {
+    socket.emit("req-answer-question", room, { id: socket.id, name: socket.id.toString().slice(0, 6) }, questionId);
+  }
 }

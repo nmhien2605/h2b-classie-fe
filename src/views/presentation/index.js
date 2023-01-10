@@ -102,8 +102,8 @@ const Presentation = () => {
 
           {/* if slide type = multi choice */}
           <Row className='match-height'>
-            {/* content */}
             <Col xs={9}>
+              {/* content */}
               <SlideView
                 title={`Go to ${process.env.REACT_APP_DOMAIN}/vote-slide and use the code ${code}`}
                 chartData={buildData(
@@ -114,7 +114,7 @@ const Presentation = () => {
               />
             </Col>
             <Col xs={3}>
-              {/* Fragment Chat */}
+              {/* Chat Bar */}
               <ChatLog></ChatLog>
             </Col>
           </Row>

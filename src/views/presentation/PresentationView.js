@@ -15,6 +15,8 @@ import {
   CardBody,
   Input,
   Button,
+  Row,
+  Col
 } from "reactstrap";
 
 import { SocketContext, joinRoom, voteRoom } from "../../utility/Socket";
@@ -23,6 +25,7 @@ const API_DOMAIN = process.env.REACT_APP_API_DOMAIN;
 
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import ChatLog from "../chat";
 const MySwal = withReactContent(Swal);
 
 const PresentationView = () => {
@@ -80,7 +83,7 @@ const PresentationView = () => {
   };
 
   return (
-    <>
+    <div className="mt-2">
       {!isJoined ? (
         <Card style={{ marginBottom: 0, margin: "40px" }}>
           <CardHeader className="justify-content-center">
@@ -94,31 +97,41 @@ const PresentationView = () => {
           </CardBody>
         </Card>
       ) : (
-        <>
-          {!isVoted ? (
+        <Row className='match-height'>
+          <Col xs={9}>
+            {/* content */}
             <>
-              {/* if slide type = multi choice */}
-              <SlideVote
-                title={slides[current].detail.title}
-                options={slides[current].detail.options}
-                handleVote={handleVote}
-              />
+              {!isVoted ? (
+                <>
+                  {/* if slide type = multi choice */}
+                  <SlideVote
+                    title={slides[current].detail.title}
+                    options={slides[current].detail.options}
+                    handleVote={handleVote}
+                  />
+                </>
+              ) : (
+                <>
+                  {/* if slide type = multi choice */}
+                  <SlideView
+                    extraTitle={`Go to www.h2b.com and use the code ${code}`}
+                    chartData={buildData(
+                      slides[current].detail.options,
+                      slides[current].detail.values
+                    )}
+                  />
+                </>
+              )}
             </>
-          ) : (
-            <>
-              {/* if slide type = multi choice */}
-              <SlideView
-                extraTitle={`Go to www.h2b.com and use the code ${code}`}
-                chartData={buildData(
-                  slides[current].detail.options,
-                  slides[current].detail.values
-                )}
-              />
-            </>
-          )}
-        </>
+          </Col>
+          <Col xs={3}>
+            {/* Chat Bar */}
+            <ChatLog></ChatLog>
+          </Col>
+        </Row>
+
       )}
-    </>
+    </div>
   );
 };
 

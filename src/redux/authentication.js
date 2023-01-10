@@ -7,7 +7,7 @@ import useJwt from '@src/auth/jwt/useJwt'
 const config = useJwt.jwtConfig
 
 const initialUser = () => {
-  const item = window.localStorage.getItem('userData')
+  const item = window.localStorage.getItem('user')
   //** Parse stored json or if none return initialValue
   return item ? JSON.parse(item) : {}
 }

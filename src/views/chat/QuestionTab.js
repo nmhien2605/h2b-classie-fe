@@ -76,49 +76,51 @@ const QuestionTab = ({ room }) => {
         }}
       >
         <div className="mb-1" style={{ flex: "1 1 auto", overflow: "auto" }}>
-          {questions.map((question) => (
-            <div className="mb-1" key={question.id}>
-              <div>
-                <span className="me-1" style={{ fontWeight: "bold" }}>
-                  {question.username}
-                </span>
-                <span>{question.time}</span>
-              </div>
-              <div>{question.question}</div>
-              <div>
-                <Button
-                  className="me-1"
-                  style={{ padding: 5, fontSize: 14 }}
-                  color="info"
-                  onClick={() => handleLikeQuestion(question.id)}
-                >
-                  <span style={{ verticalAlign: "bottom", marginRight: 5 }}>
-                    {question.like}
+          <div style={{ maxHeight: "calc(100vh - 205px)", overflow: "auto" }}>
+            {questions.map((question) => (
+              <div className="mb-1" key={question.id}>
+                <div>
+                  <span className="me-1" style={{ fontWeight: "bold" }}>
+                    {question.username}
                   </span>
-                  <ThumbsUp size={16} style={{ verticalAlign: "top" }} />
-                </Button>
-                {question.isAnswer && (
-                  <Badge style={{ padding: 7, fontSize: 13 }} color="success">
-                    Answered
-                  </Badge>
-                  // <Button
-                  //   style={{
-                  //     padding: 5,
-                  //     paddingTop: 6,
-                  //     fontSize: 13,
-                  //     fontWeight: "bold",
-                  //   }}
-                  //   color="success"
-                  //   disabled
-                  // >
-                  //   Answered
-                  // </Button>
-                )}
+                  <span>{question.time}</span>
+                </div>
+                <div>{question.question}</div>
+                <div>
+                  <Button
+                    className="me-1"
+                    style={{ padding: 5, fontSize: 14 }}
+                    color="info"
+                    onClick={() => handleLikeQuestion(question.id)}
+                  >
+                    <span style={{ verticalAlign: "bottom", marginRight: 5 }}>
+                      {question.like}
+                    </span>
+                    <ThumbsUp size={16} style={{ verticalAlign: "top" }} />
+                  </Button>
+                  {question.isAnswer && (
+                    <Badge style={{ padding: 7, fontSize: 13 }} color="success">
+                      Answered
+                    </Badge>
+                    // <Button
+                    //   style={{
+                    //     padding: 5,
+                    //     paddingTop: 6,
+                    //     fontSize: 13,
+                    //     fontWeight: "bold",
+                    //   }}
+                    //   color="success"
+                    //   disabled
+                    // >
+                    //   Answered
+                    // </Button>
+                  )}
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
-        <Form className="chat-app-form" style={{ flex: "0 1 40px" }} onSubmit={(e) => handleSendQuestion(e)}>
+        <Form className="chat-app-form" style={{ flex: "0 1 30px" }} onSubmit={(e) => handleSendQuestion(e)}>
           <InputGroup>
             <Input
               value={text}

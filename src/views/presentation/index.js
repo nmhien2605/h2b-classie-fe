@@ -7,7 +7,8 @@ import { useState, useEffect, useContext, Fragment } from "react";
 import { useHistory } from "react-router-dom";
 import { buildData } from "../../utility/chartData/barChartData";
 import SlideView from "../createSlide/SlideView";
-import { Button, Col, Row } from "reactstrap";
+import { Button, Col, Row, Badge } from "reactstrap";
+import { X } from "react-feather";
 import ChatBox from "../chat";
 import {
   SocketContext,
@@ -141,31 +142,61 @@ const Presentation = () => {
             }}
           >
             <div style={{ flex: "1 1 auto" }}>
-              <Row>
+              <Row style={{ height: "100%" }}>
                 <Col xs={9}>
-                  {/* content */}
-                  <SlideView
-                    title={`Go to ${process.env.REACT_APP_DOMAIN}/vote-slide and use the code ${code}`}
-                    chartData={buildData(
-                      slides[current].detail.options,
-                      slides[current].detail.values
-                    )}
-                    setCurrent={setCurrent}
-                  />
+                  <div
+                    style={{
+                      display: "flex",
+                      flexFlow: "column",
+                      height: "100%",
+                    }}
+                  >
+                    <div style={{ flex: "0 1 auto" }}>
+                      <Button
+                        className="mb-1 me-1"
+                        style={{ padding: 9, paddingInline: 18 }}
+                        color="danger"
+                        onClick={handleClosePresent}
+                      >
+                        <X size={18} />
+                        <span style={{ marginLeft: 5, verticalAlign: "middle" }}>Close</span>
+                      </Button>
+                      <Button
+                        className="mb-1 me-1"
+                        color="primary"
+                        // onClick={handleNextSlide}
+                        disabled={current === 0}
+                      >
+                        Prev
+                      </Button>
+                      <Button
+                        className="mb-1 me-1"
+                        color="primary"
+                        onClick={handleNextSlide}
+                        disabled={current === slides.length - 1}
+                      >
+                        Next
+                      </Button>
+                      <Badge style={{ verticalAlign: "top", maxWidth: "100%", fontSize: 16, paddingBlock: 11, paddingInline: 15 }}>Go to {process.env.REACT_APP_DOMAIN}/vote-slide and use the code {code}</Badge>
+                    </div>
+                    <div style={{ flex: "1 1 auto" }}>
+                      {/* content */}
+                      <SlideView
+                        title={slides[current].detail.title}
+                        chartData={buildData(
+                          slides[current].detail.options,
+                          slides[current].detail.values
+                        )}
+                        setCurrent={setCurrent}
+                      />
+                    </div>
+                  </div>
                 </Col>
                 <Col xs={3}>
                   {/* Chat Bar */}
                   <ChatBox room={code} isClient={false}></ChatBox>
                 </Col>
               </Row>
-            </div>
-            <div style={{ flex: "0 1 50px" }}>
-              <Button className="mt-2" onClick={handleClosePresent}>
-                Close
-              </Button>
-              {current !== slides.length - 1 ? (
-                <Button onClick={handleNextSlide}>Next Slide</Button>
-              ) : null}
             </div>
           </div>
           {/* if slide type = multi choice */}

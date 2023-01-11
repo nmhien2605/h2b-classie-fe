@@ -1,6 +1,7 @@
 // ** React Imports
 import { Fragment } from 'react'
-
+import axios from 'axios'
+import axiosHeader from "../../constants/axiosHeader"
 // ** Reactstrap Imports
 import { Row, Col, Card, Form, Button, CardBody, CardTitle, CardHeader, FormFeedback } from 'reactstrap'
 
@@ -8,7 +9,9 @@ import { Row, Col, Card, Form, Button, CardBody, CardTitle, CardHeader, FormFeed
 import * as yup from 'yup'
 import { useForm, Controller } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+const MySwal = withReactContent(Swal);
 // ** Custom Components
 import InputPasswordToggle from '@components/input-password-toggle'
 
@@ -28,7 +31,36 @@ const defaultValues = {
   retypeNewPassword: ''
 }
 
+const API_DOMAIN = process.env.REACT_APP_API_DOMAIN;
+
 const SecurityTabContent = () => {
+  const handleSuccess = (message) => {
+    return MySwal.fire({
+      title: 'Done!',
+      text: message,
+      icon: 'success',
+      customClass: {
+        confirmButton: 'btn btn-primary',
+      },
+      buttonsStyling: false
+    }).then((result) => {
+      if (result.isConfirmed) {
+        window.location.href = "/account-settings"
+      }
+    })
+  }
+
+  const handleError = (message) => {
+    return MySwal.fire({
+      title: 'Error!',
+      text: message,
+      icon: 'error',
+      customClass: {
+        confirmButton: 'btn btn-primary'
+      },
+      buttonsStyling: false
+    })
+  }
   const SignupSchema = yup.object().shape({
     currentPassword: yup
       .string()
@@ -56,7 +88,20 @@ const SecurityTabContent = () => {
 
   const onSubmit = data => {
     if (Object.values(data).every(field => field.length > 0)) {
-      return null
+      console.log(data.newPassword);
+      axios
+        .post(`${API_DOMAIN}/change-password`, {
+          password: data.currentPassword,
+          newPassword: data.newPassword
+        }, { headers: axiosHeader }, { withCredentials: true })
+        .then((res) => {
+          handleSuccess(res.data.message)
+        })
+        .catch((error) => {
+          console.log(error);
+          console.error(error.response);
+          handleError(error.response.data.message);
+        })
     } else {
       for (const key in data) {
         if (data[key].length === 0) {

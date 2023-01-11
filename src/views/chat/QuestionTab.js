@@ -78,9 +78,9 @@ const QuestionTab = ({ room }) => {
         <div className="mb-1" style={{ flex: "1 1 auto", overflow: "auto" }}>
           <div style={{ maxHeight: "calc(100vh - 205px)", overflow: "auto" }}>
             {questions.map((question) => (
-              <div className="mb-1" key={question.id}>
-                <div>
-                  <span className="me-1" style={{ fontWeight: "bold" }}>
+              <div className="mb-1 me-1" key={question.id}>
+                <div className="d-flex justify-content-between">
+                  <span style={{ fontWeight: "bold" }}>
                     {question.username}
                   </span>
                   <span>{question.time}</span>

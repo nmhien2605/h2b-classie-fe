@@ -56,7 +56,7 @@ const LoginCover = () => {
       .post(`${API_DOMAIN}/login`, {
         email: values.email,
         password: values.password
-      }, { headers: axiosHeader}, { withCredentials: true })
+      }, { headers: axiosHeader}, { withCredentials: true, credentials: "include" })
       .then(async () => {
         await getUserInfo();
         window.location.href = `${process.env.REACT_APP_DOMAIN}/home`

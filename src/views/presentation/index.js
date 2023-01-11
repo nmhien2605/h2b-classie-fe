@@ -75,6 +75,8 @@ const Presentation = () => {
       setCurrent(socketData.data);
     } else if (socketData.event === "update-slide") {
       setSlides(socketData.data.slides);
+    } else if (socketData.event === "end-present") {
+      history.push(`/create-slide?id=${id}`)
     }
   }, [socketData]);
 

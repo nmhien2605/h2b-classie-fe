@@ -64,8 +64,8 @@ const Routes = [
     }
   },
   {
-    path: '/getinfo',
-    component: lazy(() => import('../../views/UserInfo')),
+    path: '/google-info',
+    component: lazy(() => import('../../views/GoogleLogin')),
     layout: 'BlankLayout',
     meta: {
       authRoute: true

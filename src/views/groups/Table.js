@@ -3,7 +3,7 @@
 /*eslint-disable */
 // ** React Imports
 import { useEffect, Fragment, useState } from "react";
-
+import axiosHeader from "../../constants/axiosHeader"
 // ** Table Columns
 import { columns } from "./columns";
 
@@ -127,6 +127,7 @@ const Table = ({ groupData }) => {
     const data = await axios.post(
       `${process.env.REACT_APP_API_DOMAIN}/groups/invite`,
       { groupId, emails: [value] },
+      { headers: axiosHeader },
       {
         withCredentials: true,
       }
@@ -161,6 +162,7 @@ const Table = ({ groupData }) => {
     const data = await axios.put(
       `${process.env.REACT_APP_API_DOMAIN}/groups/${groupId}/update-member/${row.detail._id}`,
       { role: value },
+      { headers: axiosHeader },
       {
         withCredentials: true,
       }
@@ -191,6 +193,7 @@ const Table = ({ groupData }) => {
       // Goi api xoa user o day
       const data = await axios.delete(
         `${process.env.REACT_APP_API_DOMAIN}/groups/${groupId}/remove-member/${row.detail._id}`,
+        { headers: axiosHeader },
         {
           withCredentials: true,
         }

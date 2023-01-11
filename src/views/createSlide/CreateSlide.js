@@ -1,7 +1,7 @@
 /*eslint-disable */
 // ** Third Party Components
 import Select from "react-select";
-
+import axiosHeader from "../../constants/axiosHeader";
 // ** Styles
 import "@styles/base/pages/page-misc.scss";
 import { selectThemeColors } from "@utils";
@@ -102,6 +102,7 @@ const CreateSlide = () => {
     if (id) {
       const { data } = await axios.get(
         `${process.env.REACT_APP_API_DOMAIN}/presentations/${id}`,
+        { headers: axiosHeader },
         { withCredentials: true }
       );
       setIsCreated(true);
@@ -174,6 +175,7 @@ const CreateSlide = () => {
     const { data } = await axios.post(
       `${process.env.REACT_APP_API_DOMAIN}/presentations`,
       { name: "Your new presentation" },
+      { headers: axiosHeader },
       { withCredentials: true }
     );
     // console.log({ res });
@@ -195,6 +197,7 @@ const CreateSlide = () => {
     await axios.put(
       `${process.env.REACT_APP_API_DOMAIN}/presentations/${data._id}`,
       { ...data },
+      { headers: axiosHeader },
       { withCredentials: true }
     );
 
@@ -207,7 +210,7 @@ const CreateSlide = () => {
 
   const handlePresent = () => {
     axios
-      .get(`${API_DOMAIN}/presentations/check-enable/${id}`, {
+      .get(`${API_DOMAIN}/presentations/check-enable/${id}`, { headers: axiosHeader }, {
         withCredentials: true,
       })
       .then((res) => {

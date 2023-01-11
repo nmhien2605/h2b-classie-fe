@@ -1,5 +1,6 @@
 // ** React Imports
 import axios from "axios";
+import axiosHeader from "../../constants/axiosHeader"
 import { Fragment, useEffect, useState } from "react";
 import CopyToClipboard from "react-copy-to-clipboard";
 import { Button, Card, Col, Row } from "reactstrap";
@@ -20,6 +21,7 @@ const Group = () => {
     if (groupId) {
       const { data } = await axios.get(
         `${process.env.REACT_APP_API_DOMAIN}/groups/${groupId}`,
+        { headers: axiosHeader },
         {
           withCredentials: true,
         }
@@ -37,6 +39,7 @@ const Group = () => {
 
       const { data: presentations } = await axios.get(
         `${process.env.REACT_APP_API_DOMAIN}/presentations/by-group/${groupId}`,
+        { headers: axiosHeader },
         {
           withCredentials: true,
         }
@@ -48,6 +51,7 @@ const Group = () => {
 
       const { data: inviteData } = await axios.get(
         `${process.env.REACT_APP_API_DOMAIN}/groups/${groupId}/invitation-url`,
+        { headers: axiosHeader },
         {
           withCredentials: true,
         }

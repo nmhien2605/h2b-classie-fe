@@ -9,6 +9,7 @@ import { Award } from "react-feather";
 // ** Custom Components
 import Avatar from "@components/avatar";
 
+import axiosHeader from "../constants/axiosHeader"
 // ** Reactstrap Imports
 import {
   Card,
@@ -83,6 +84,7 @@ const Success = () => {
         .post(
           `${process.env.REACT_APP_API_DOMAIN}/groups/${groupId}/join-group`,
           { userEmail: user.email, inviteKey: key, userId: user._id },
+          { headers: axiosHeader },
           {
             withCredential: true,
           }

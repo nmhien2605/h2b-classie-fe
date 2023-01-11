@@ -1,6 +1,6 @@
 // ** Third Party Components
 import axios from "axios";
-
+import axiosHeader from "../../constants/axiosHeader"
 // ** Styles
 import "@styles/base/pages/page-misc.scss";
 import { useState, useEffect, useContext, Fragment } from "react";
@@ -36,7 +36,7 @@ const Presentation = () => {
     axios
       .put(
         `${API_DOMAIN}/presentations/enable/${id}`,
-        {},
+        { headers: axiosHeader },
         {
           withCredentials: true,
         }
@@ -82,7 +82,7 @@ const Presentation = () => {
     axios
       .put(
         `${API_DOMAIN}/presentations/disable/${id}`,
-        {},
+        { headers: axiosHeader },
         {
           withCredentials: true,
         }

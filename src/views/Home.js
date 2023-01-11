@@ -12,6 +12,7 @@ import {
   Row,
 } from "reactstrap";
 
+import axiosHeader from "../constants/axiosHeader"
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Info } from "react-feather";
@@ -33,6 +34,7 @@ const Home = () => {
   const loadGroups = async () => {
     const { data } = await axios.get(
       `${process.env.REACT_APP_API_DOMAIN}/groups`,
+      { headers: axiosHeader },
       { withCredentials: true }
     );
 
@@ -63,7 +65,7 @@ const Home = () => {
 
     const { data } = await axios.post(
       `${process.env.REACT_APP_API_DOMAIN}/groups`,
-      { name: inputValue },
+      { name: inputValue }, { headers: axiosHeader },
       { withCredentials: true }
     );
 
@@ -104,6 +106,7 @@ const Home = () => {
       // Goi api xoa group
       const data = await axios.delete(
         `${process.env.REACT_APP_API_DOMAIN}/groups/${groupData._id}`,
+        { headers: axiosHeader },
         {
           withCredentials: true,
         }

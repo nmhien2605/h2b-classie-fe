@@ -80,7 +80,7 @@ const LoginCover = () => {
     } else {
       axios.post(`${API_DOMAIN}/forgot-password`, {
         email: values.email,
-      }, { withCredentials: true })
+      }, { headers: axiosHeader }, { withCredentials: true })
         .then((res) => {
           console.log(res);
           handleSuccess(res.data.message)

@@ -5,7 +5,7 @@ import { Card, CardBody, CardTitle, CardText, Button } from 'reactstrap'
 
 // ** Styles
 import '@styles/react/pages/page-authentication.scss'
-
+import axiosHeader from "../constants/axiosHeader"
 import { useEffect } from 'react'
 import axios from 'axios'
 const API_DOMAIN = process.env.REACT_APP_API_DOMAIN;
@@ -16,7 +16,7 @@ const VerifyEmailBasic = () => {
   const email = new URLSearchParams(search).get('email')
   const resendEmail = async () => {
     await axios
-      .get(`${API_DOMAIN}/users/active-account`, { withCredentials: true })
+      .get(`${API_DOMAIN}/users/active-account`, { headers: axiosHeader }, { withCredentials: true })
     // .then(() => {
     //   //redirect to ...
     //   console.log("Ok");

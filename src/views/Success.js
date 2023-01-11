@@ -15,7 +15,7 @@ import { Card, CardHeader, CardBody, CardTitle, CardText, Button } from 'reactst
 // ** Images
 import decorationLeft from '@src/assets/images/elements/decore-left.png'
 import decorationRight from '@src/assets/images/elements/decore-right.png'
-
+import axiosHeader from "../constants/axiosHeader"
 const CardCongratulations = () => {
     return (
         <Card className='card-congratulations'>
@@ -41,7 +41,7 @@ const Success = () => {
     const { id } = useParams();
     useEffect(() => {
         if (id) {
-            axios.get(`${process.env.REACT_APP_API_DOMAIN}/users/verify/${id}`, { withCredential: true })
+            axios.get(`${process.env.REACT_APP_API_DOMAIN}/users/verify/${id}`, { headers: axiosHeader }, { withCredential: true })
                 .then(res => { console.log(res); })
                 .catch(error => console.log(error))
         };

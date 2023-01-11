@@ -1,5 +1,6 @@
 import "@styles/react/apps/app-users.scss";
 import axios from "axios";
+import axiosHeader from "../../constants/axiosHeader"
 import { useEffect, useState } from "react";
 import { Edit2, MoreVertical, Trash2, UserPlus } from "react-feather";
 import PerfectScrollbar from "react-perfect-scrollbar";
@@ -30,6 +31,7 @@ const MyPresentations = () => {
   useEffect(async () => {
     const { data } = await axios.get(
       `${process.env.REACT_APP_API_DOMAIN}/presentations`,
+      { headers: axiosHeader },
       {
         withCredentials: true,
       }
@@ -90,6 +92,7 @@ const MyPresentations = () => {
     if (result.value) {
       const { data } = await axios.delete(
         `${process.env.REACT_APP_API_DOMAIN}/presentations/${id}`,
+        { headers: axiosHeader },
         { withCredentials: true }
       );
 
@@ -132,6 +135,7 @@ const MyPresentations = () => {
     const data = await axios.post(
       `${process.env.REACT_APP_API_DOMAIN}/presentations/${presentation._id}/add-collab`,
       { email: value },
+      { headers: axiosHeader },
       {
         withCredentials: true,
       }

@@ -115,7 +115,7 @@ const LoginCover = () => {
         <Col className='d-flex align-items-center auth-bg px-2 p-lg-5' lg='4' sm='12'>
           <Col className='px-xl-2 mx-auto' sm='8' md='6' lg='12'>
             <CardTitle tag='h2' className='fw-bold mb-1'>
-              Welcome to H2B Clasie! 👋
+              Welcome to H2B Classie! 👋
             </CardTitle>
             <CardText className='mb-2'>Please sign-in to your account and start the adventure</CardText>
             <Form className='auth-login-form mt-2' onSubmit={handleSubmit(onSubmit)}>
@@ -137,7 +137,6 @@ const LoginCover = () => {
                     />
                   )}
                 />
-
               </div>
               <div className='mb-1'>
                 <div className='d-flex justify-content-between'>

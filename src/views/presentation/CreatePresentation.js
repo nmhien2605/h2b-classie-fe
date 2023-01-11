@@ -31,7 +31,7 @@ const CreatePresentation = () => {
 
     if (data.success) {
       setGroups(data.data);
-      setGroup(data.data[0]._id);
+      setGroup(data.data[0] ? data.data[0]._id : "");
       console.log(data.data);
     }
   };
@@ -70,11 +70,13 @@ const CreatePresentation = () => {
         <option key="public" value="public">
           Public presentation
         </option>
-        <option key="private" value="private">
-          Group presentation
-        </option>
+        {groups.length > 0 && (
+          <option key="private" value="private">
+            Group presentation
+          </option>
+        )}
       </Input>
-      {!isPublic && (
+      {!isPublic && groups.length > 0 && (
         <div>
           <Label className="mt-2">Group</Label>
           <Input

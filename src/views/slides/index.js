@@ -1,7 +1,7 @@
 import "@styles/react/apps/app-users.scss";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Edit2, MoreVertical, Trash2 } from "react-feather";
+import { Edit2, MoreVertical, Trash2, UserPlus } from "react-feather";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import { Link } from "react-router-dom";
 import {
@@ -163,23 +163,27 @@ const MyPresentations = () => {
                       <div className="bg-light-secondary position-relative rounded p-2">
                         <Row className="btn-pinned align-items-center">
                           <Col>
-                            {presentation?.owner?._id === user._id && (
-                              <Button
-                                className="d-flex align-items-center"
-                                color="primary"
-                                style={{ whiteSpace: "nowrap" }}
-                                onClick={() => addCollab(presentation)}
-                              >
-                                Add Collab
-                              </Button>
-                            )}
-                          </Col>
-                          <Col>
                             <Link to={`/create-slide?id=${presentation._id}`}>
                               <Edit2 size={14} className="me-50" />
                               <span>Detail</span>
                             </Link>
+
                           </Col>
+                          <Col>
+                            {presentation?.owner?._id === user._id && (
+                              <Button
+                                className="d-flex align-items-center"
+                                color="primary"
+                                outline
+                                style={{ whiteSpace: "nowrap" }}
+                                onClick={() => addCollab(presentation)}
+                              >
+                                <UserPlus size={14} className="me-50" />
+                                Add Collab
+                              </Button>
+                            )}
+                          </Col>
+
                           <Col>
                             <Button
                               className="d-flex align-items-center"

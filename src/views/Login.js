@@ -57,7 +57,7 @@ const LoginCover = () => {
       }, { withCredentials: true })
       .then(async () => {
         await getUserInfo();
-        window.location.href = "http://localhost:3000/home"
+        window.location.href = `${process.env.REACT_APP_DOMAIN}/home`
       })
       .catch((error) => {
         console.log(error);

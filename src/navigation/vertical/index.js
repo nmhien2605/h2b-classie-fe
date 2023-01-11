@@ -29,8 +29,8 @@ export default [
   },
   {
     id: "slide",
-    title: "Create Slide",
+    title: "Create Presentation",
     icon: <Trello size={20} />,
-    navLink: "/create-slide",
+    navLink: "/create-presentation",
   },
 ];

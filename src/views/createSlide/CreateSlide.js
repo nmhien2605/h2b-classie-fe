@@ -210,11 +210,15 @@ const CreateSlide = () => {
 
   const handlePresent = () => {
     axios
-      .get(`${API_DOMAIN}/presentations/check-enable/${id}`, { headers: axiosHeader }, {
-        withCredentials: true,
-      })
+      .get(
+        `${API_DOMAIN}/presentations/check-enable/${id}`,
+        { headers: axiosHeader },
+        {
+          withCredentials: true,
+        }
+      )
       .then((res) => {
-        console.log(res)
+        console.log(res);
         if (res.data.success) {
           history.push(`/view-slide?id=${id}`);
         } else {

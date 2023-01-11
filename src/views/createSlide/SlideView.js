@@ -30,8 +30,8 @@ const SlideView = ({ extraTitle, title, chartData }) => {
           // setValues={setValues}
           />
         </CardBody>
-      </Card >
-    </Fragment >
+      </Card>
+    </Fragment>
 
   );
 };

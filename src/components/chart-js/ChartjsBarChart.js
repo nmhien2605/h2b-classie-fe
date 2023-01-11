@@ -8,7 +8,7 @@ const ChartjsBarChart = ({
   gridLineColor,
   labelColor,
   chartData,
-  setValues = () => {},
+  setValues = () => { },
 }) => {
   // ** Chart Options
   const options = {
@@ -56,7 +56,7 @@ const ChartjsBarChart = ({
   return (
     <Card>
       <CardBody>
-        <div>
+        <div >
           <Bar data={chartData} options={options} height={300} />
         </div>
       </CardBody>

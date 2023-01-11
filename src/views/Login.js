@@ -1,6 +1,7 @@
 import { useSkin } from '@hooks/useSkin'
 import { Link } from 'react-router-dom'
 import axios from "axios"
+import Cookies from 'js-cookie'
 
 //import { useNavigate } from "react-router-dom"
 import InputPasswordToggle from '@components/input-password-toggle'
@@ -55,7 +56,9 @@ const LoginCover = () => {
         email: values.email,
         password: values.password
       }, { withCredentials: true })
-      .then(async () => {
+      .then(async (data) => {
+        Cookies.set('accessToken', data.accessToken);
+        Cookies.set('id', data.id)
         await getUserInfo();
         window.location.href = "http://localhost:3000/home"
       })

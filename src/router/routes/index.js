@@ -52,6 +52,10 @@ const Routes = [
     component: lazy(() => import('../../views/slides'))
   },
   {
+    path: '/create-presentation',
+    component: lazy(() => import('../../views/presentation/CreatePresentation'))
+  },
+  {
     path: '/create-slide',
     component: lazy(() => import('../../views/createSlide/CreateSlide'))
   },

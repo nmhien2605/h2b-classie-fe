@@ -14,6 +14,7 @@ import {
   SocketContext,
   hostRoom,
   closeRoom,
+  prevSlide,
   nextSlide,
 } from "../../utility/Socket";
 
@@ -71,10 +72,13 @@ const Presentation = () => {
         setCurrent(socketData.data.current);
         setLoading(false);
       }
+    } else if (socketData.event === "prev-slide") {
+      setCurrent(socketData.data);
     } else if (socketData.event === "next-slide") {
       setCurrent(socketData.data);
     } else if (socketData.event === "update-slide") {
-      setSlides(socketData.data.slides);
+      setSlides(socketData.data.presentation.slides);
+      console.log(socketData.data.vote);
     } else if (socketData.event === "end-present") {
       history.push(`/create-slide?id=${id}`)
     }
@@ -99,6 +103,11 @@ const Presentation = () => {
         console.error(error);
       });
   };
+
+  const handlePrevSlide = () => {
+    prevSlide(code);
+  };
+
   const handleNextSlide = () => {
     nextSlide(code);
   };
@@ -166,10 +175,10 @@ const Presentation = () => {
                       <Button
                         className="mb-1 me-1"
                         color="primary"
-                        // onClick={handleNextSlide}
+                        onClick={handlePrevSlide}
                         disabled={current === 0}
                       >
-                        Prev
+                        Previous
                       </Button>
                       <Button
                         className="mb-1 me-1"

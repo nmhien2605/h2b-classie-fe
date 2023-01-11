@@ -7,7 +7,8 @@ const SlideVote = ({ title, options, handleVote }) => {
     return (
       <div>
         <Button
-          className="btn my-2"
+          className="btn m-1"
+          style={{ width: "50%" }}
           color="primary"
           key={key}
           onClick={() => {
@@ -25,7 +26,7 @@ const SlideVote = ({ title, options, handleVote }) => {
       <CardHeader className="justify-content-center">
         <CardTitle tag={"h2"}>{title}</CardTitle>
       </CardHeader>
-      <CardBody>
+      <CardBody className="mt-2" style={{ textAlign: "center" }}>
         {votes}
       </CardBody>
     </Card>

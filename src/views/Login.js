@@ -13,6 +13,8 @@ const MySwal = withReactContent(Swal);
 import '@styles/react/pages/page-authentication.scss'
 import { useForm, Controller } from 'react-hook-form'
 import getUserInfo from './UserInfo'
+import axiosHeader from '../constants/axiosHeader'
+
 const API_DOMAIN = process.env.REACT_APP_API_DOMAIN;
 const defaultValues = {
   password: '',
@@ -55,12 +57,12 @@ const LoginCover = () => {
       .post(`${API_DOMAIN}/login`, {
         email: values.email,
         password: values.password
-      }, { withCredentials: true })
-      .then(async (data) => {
+      }, { headers: axiosHeader }, { withCredentials: true, credentials: "include" })
+      .then(async () => {
         Cookies.set('accessToken', data.accessToken);
         Cookies.set('id', data.id)
         await getUserInfo();
-        window.location.href = "http://localhost:3000/home"
+        window.location.href = `${process.env.REACT_APP_DOMAIN}/home`
       })
       .catch((error) => {
         console.log(error);

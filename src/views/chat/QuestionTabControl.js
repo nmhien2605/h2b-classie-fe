@@ -67,48 +67,50 @@ const QuestionTabControl = ({ room }) => {
       </CardHeader> */}
       <CardBody>
         <div className="mb-1" style={{ overflow: "auto" }}>
-          {questions.map((question) => (
-            <div className="mb-1" key={question.id}>
-              <div>
-                <span className="me-1" style={{ fontWeight: "bold" }}>
-                  {question.username}
-                </span>
-                <span>{question.time}</span>
-              </div>
-              <div>{question.question}</div>
-              <div>
-                <Button
-                  className="me-1"
-                  style={{ padding: 5, fontSize: 14 }}
-                  color="info"
-                  onClick={() => handleLikeQuestion(question.id)}
-                >
-                  <span style={{ verticalAlign: "bottom", marginRight: 5 }}>
-                    {question.like}
+          <div style={{ maxHeight: "calc(100vh - 170px)", overflow: "auto" }}>
+            {questions.map((question) => (
+              <div className="mb-1" key={question.id}>
+                <div>
+                  <span className="me-1" style={{ fontWeight: "bold" }}>
+                    {question.username}
                   </span>
-                  <ThumbsUp size={16} style={{ verticalAlign: "top" }} />
-                </Button>
-                {question.isAnswer ? (
-                  <Badge style={{ padding: 7, fontSize: 13 }} color="success">
-                    Answered
-                  </Badge>
-                ) : (
+                  <span>{question.time}</span>
+                </div>
+                <div>{question.question}</div>
+                <div>
                   <Button
-                    style={{
-                      padding: 5,
-                      paddingBlock: 6,
-                      fontSize: 14,
-                      fontWeight: "bold",
-                    }}
-                    color="warning"
-                    onClick={() => handleAnswerQuestion(question.id)}
+                    className="me-1"
+                    style={{ padding: 5, fontSize: 14 }}
+                    color="info"
+                    onClick={() => handleLikeQuestion(question.id)}
                   >
-                    Make Answered
+                    <span style={{ verticalAlign: "bottom", marginRight: 5 }}>
+                      {question.like}
+                    </span>
+                    <ThumbsUp size={16} style={{ verticalAlign: "top" }} />
                   </Button>
-                )}
+                  {question.isAnswer ? (
+                    <Badge style={{ padding: 7, fontSize: 13 }} color="success">
+                      Answered
+                    </Badge>
+                  ) : (
+                    <Button
+                      style={{
+                        padding: 5,
+                        paddingBlock: 6,
+                        fontSize: 14,
+                        fontWeight: "bold",
+                      }}
+                      color="warning"
+                      onClick={() => handleAnswerQuestion(question.id)}
+                    >
+                      Make Answered
+                    </Button>
+                  )}
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </CardBody>
     </Card>

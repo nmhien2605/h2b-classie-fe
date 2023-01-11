@@ -62,6 +62,10 @@ export const useSocket = () => {
       setSocketData({ event: "update-slide", data });
     });
 
+    socket.on("res-prev-slide", (data) => {
+      setSocketData({ event: "prev-slide", data });
+    });
+
     socket.on("res-next-slide", (data) => {
       setSocketData({ event: "next-slide", data });
     });
@@ -131,7 +135,15 @@ export const joinRoom = (room) => {
 };
 
 export const voteRoom = (room, data) => {
-  socket.emit("req-vote-room", room, data);
+  if (user) {
+    socket.emit("req-vote-room", room, { id: user._id.toString(), name: user.name }, data);
+  } else {
+    socket.emit("req-vote-room", room, { id: socket.id, name: socket.id.toString().slice(0, 6) }, data);
+  }
+};
+
+export const prevSlide = (room) => {
+  socket.emit("req-prev-slide", room);
 };
 
 export const nextSlide = (room) => {
@@ -173,4 +185,11 @@ export const answerQuestion = (room, questionId) => {
   } else {
     socket.emit("req-answer-question", room, { id: socket.id, name: socket.id.toString().slice(0, 6) }, questionId);
   }
+}
+
+export const getUserId = () => {
+  if (user) {
+    return user._id.toString();
+  }
+  return socket.id;
 }

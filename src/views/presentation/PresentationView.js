@@ -19,7 +19,7 @@ import {
   Col,
 } from "reactstrap";
 
-import { SocketContext, joinRoom, voteRoom } from "../../utility/Socket";
+import { SocketContext, joinRoom, voteRoom, getUserId } from "../../utility/Socket";
 
 const API_DOMAIN = process.env.REACT_APP_API_DOMAIN;
 
@@ -34,6 +34,7 @@ const PresentationView = () => {
   const [slides, setSlides] = useState([
     { detail: { options: [], values: [] } },
   ]);
+  const [vote, setVote] = useState([[]]);
   const [current, setCurrent] = useState(0);
   const [code, setCode] = useState(query.get("code") ? query.get("code") : "");
   const [isJoined, setJoined] = useState(false);
@@ -47,6 +48,7 @@ const PresentationView = () => {
         console.log(socketData.data.data.slides);
         setSlides(socketData.data.data.slides);
         setCurrent(socketData.data.current);
+        setVote(socketData.data.vote);
       } else {
         console.log(socketData.data);
         MySwal.fire({
@@ -59,11 +61,25 @@ const PresentationView = () => {
         });
         // noti room not online or incorret code
       }
+    } else if (socketData.event === "prev-slide") {
+      setCurrent(socketData.data);
+      console.log(vote[socketData.data], getUserId())
+      if (vote[socketData.data].includes(getUserId())) {
+        setVoted(true);
+      } else {
+        setVoted(false);
+      }
     } else if (socketData.event === "next-slide") {
       setCurrent(socketData.data);
-      setVoted(false);
+      console.log(vote[socketData.data], getUserId())
+      if (vote[socketData.data].includes(getUserId())) {
+        setVoted(true);
+      } else {
+        setVoted(false);
+      }
     } else if (socketData.event === "update-slide") {
-      setSlides(socketData.data.slides);
+      setSlides(socketData.data.presentation.slides);
+      setVote(socketData.data.vote);
     } else if (socketData.event === "end-present") {
       history.push("/vote-slide")
     }
@@ -128,7 +144,7 @@ const PresentationView = () => {
                         {/* if slide type = multi choice */}
                         <SlideView
                           style={{ height: "100%" }}
-                          title={`Go to www.h2b.com and use the code ${code}`}
+                          title={slides[current].detail.title}
                           chartData={buildData(
                             slides[current].detail.options,
                             slides[current].detail.values

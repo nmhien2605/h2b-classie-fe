@@ -4,7 +4,7 @@
 // ** Styles
 import "@styles/base/pages/page-misc.scss";
 import { useState, useEffect, useContext } from "react";
-// import { useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { buildData } from "../../utility/chartData/barChartData";
 import SlideVote from "../createSlide/SlideVote";
 import SlideView from "../createSlide/SlideView";
@@ -38,7 +38,7 @@ const PresentationView = () => {
   const [code, setCode] = useState(query.get("code") ? query.get("code") : "");
   const [isJoined, setJoined] = useState(false);
   const [isVoted, setVoted] = useState(false);
-  // const history = useHistory();
+  const history = useHistory();
 
   useEffect(() => {
     if (socketData.event === "join-room") {
@@ -64,6 +64,8 @@ const PresentationView = () => {
       setVoted(false);
     } else if (socketData.event === "update-slide") {
       setSlides(socketData.data.slides);
+    } else if (socketData.event === "end-present") {
+      history.push("/vote-slide")
     }
   }, [socketData]);
 

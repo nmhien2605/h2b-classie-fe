@@ -67,7 +67,7 @@ const Register = () => {
         name: values.username,
         email: values.email,
         password: values.password
-      }, { headers: axiosHeader })
+      })
       .then((res) => {
         if (res.data.success) {
           history.push("/login")

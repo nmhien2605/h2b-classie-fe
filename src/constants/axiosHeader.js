@@ -1,4 +1,6 @@
+const accessToken = localStorage.getItem('accessToken');
 const headers = {
+  Authorization: `${accessToken}`,
   "Access-Control-Allow-Credentials": "true",
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Methods": "GET,OPTIONS,PATCH,DELETE,POST,PUT",

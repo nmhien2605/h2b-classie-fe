@@ -59,8 +59,10 @@ const LoginCover = () => {
         password: values.password
       }, { headers: axiosHeader }, { withCredentials: true, credentials: "include" })
       .then(async (res) => {
-        Cookies.set('accessToken', res.data.accessToken);
-        Cookies.set('id', res.data.id)
+        // Cookies.set('accessToken', res.data.accessToken);
+        // Cookies.set('id', res.data.id)
+        localStorage.setItem('accessToken', res.data.accessToken)
+        console.log(Cookies.get('accessToken'));
         await getUserInfo();
         window.location.href = `${process.env.REACT_APP_DOMAIN}/home`
       })

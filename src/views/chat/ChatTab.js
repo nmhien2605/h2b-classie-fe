@@ -90,10 +90,10 @@ const ChatTab = ({ room }) => {
   return (
     <Fragment>
       <Card style={{ height: "100%" }}>
-        <CardHeader>
+        {/* <CardHeader>
           <CardTitle tag="h4"></CardTitle>
           <MoreVertical size={18} className="cursor-pointer" />
-        </CardHeader>
+        </CardHeader> */}
         <CardBody
           style={{
             display: "flex",
@@ -102,7 +102,7 @@ const ChatTab = ({ room }) => {
           }}
         >
           <div className="mb-1" style={{ flex: "1 1 auto" }}>
-            <div style={{ maxHeight: "calc(100vh - 245px)", overflow: "auto" }}>
+            <div style={{ maxHeight: "calc(100vh - 210px)", overflow: "auto" }}>
               {renderMessage()}
             </div>
           </div>

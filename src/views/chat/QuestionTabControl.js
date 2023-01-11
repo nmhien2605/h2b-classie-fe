@@ -16,6 +16,10 @@ import {
   Form,
   InputGroup,
   InputGroupText,
+  UncontrolledDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
 } from "reactstrap";
 
 // ** Icons Imports
@@ -25,7 +29,7 @@ import {
   CheckSquare as Check,
   Send,
   Link as LinkIcon,
-  MoreVertical,
+  Filter,
 } from "react-feather";
 import { Link } from "react-router-dom";
 
@@ -59,15 +63,72 @@ const QuestionTabControl = ({ room }) => {
     answerQuestion(room, id);
   };
 
+  const handleSortAnswered = () => {
+    const data = questions.sort((a, b) => {
+      if (a.isAnswer) return -1;
+      if (b.isAnswer) return 1;
+      return 0;
+    });
+    setQuestions([...data]);
+  };
+
+  const handleSortVote = () => {
+    const data = questions.sort((a, b) => {
+      if (a.like > b.like) return -1;
+      if (a.like < b.like) return 1;
+      return 0;
+    });
+    setQuestions([...data]);
+  };
+
+  const handleSortTime = () => {
+    const data = questions.sort((a, b) => {
+      if (a.time < b.time) return -1;
+      if (a.time > b.time) return 1;
+      return 0;
+    });
+    setQuestions([...data]);
+  };
+
   return (
     <Card style={{ height: '100%' }}>
-      {/* <CardHeader>
-        <CardTitle tag="h4"></CardTitle>
-        <MoreVertical size={18} className="cursor-pointer" />
-      </CardHeader> */}
-      <CardBody>
-        <div className="mb-1" style={{ overflow: "auto" }}>
-          <div style={{ maxHeight: "calc(100vh - 170px)", overflow: "auto" }}>
+      <CardHeader>
+        {/* <CardTitle tag="h4"></CardTitle> */}
+        <UncontrolledDropdown className="btn-pinned me-1">
+          <DropdownToggle tag="span" className="cursor-pointer">
+            <Filter size={18} />
+          </DropdownToggle>
+          <DropdownMenu>
+            <DropdownItem
+              className="d-flex align-items-center w-100"
+              onClick={handleSortAnswered}
+            >
+              <span>Sort by answered</span>
+            </DropdownItem>
+            <DropdownItem
+              className="d-flex align-items-center w-100"
+              onClick={handleSortVote}
+            >
+              <span>Sort by vote</span>
+            </DropdownItem>
+            <DropdownItem
+              className="d-flex align-items-center w-100"
+              onClick={handleSortTime}
+            >
+              <span>Sort by time</span>
+            </DropdownItem>
+          </DropdownMenu>
+        </UncontrolledDropdown>
+      </CardHeader>
+      <CardBody
+        style={{
+          display: "flex",
+          flexFlow: "column",
+          height: "100%",
+        }}
+      >
+        <div className="mt-1 mb-1" style={{ flex: "1 1 auto" }}>
+          <div style={{ maxHeight: "calc(100vh - 200px)", overflow: "auto" }}>
             {questions.map((question) => (
               <div className="mb-1 me-1" key={question.id}>
                 <div className="d-flex justify-content-between">

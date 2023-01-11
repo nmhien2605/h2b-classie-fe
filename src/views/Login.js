@@ -59,6 +59,8 @@ const LoginCover = () => {
         password: values.password
       }, { headers: axiosHeader }, { withCredentials: true, credentials: "include" })
       .then(async (data) => {
+        console.log(data)
+        console.log(data.data)
         Cookies.set('accessToken', data.accessToken);
         Cookies.set('id', data.id)
         await getUserInfo();
